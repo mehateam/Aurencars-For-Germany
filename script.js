@@ -70,26 +70,29 @@ function counter(el, target, sfx, dur = 2200) {
 
 /* ── CATALOG FILTER ── */
 function initFilter() {
-  const btns  = document.querySelectorAll('.flt');
-  const cards = document.querySelectorAll('.car');
-  btns.forEach(btn => btn.addEventListener('click', () => {
-    btns.forEach(b => b.classList.remove('on'));
-    btn.classList.add('on');
-    const f = btn.dataset.f;
-    let i = 0;
-    cards.forEach(c => {
-      const cats = (c.dataset.cat || '').split(' ');
-      const show = f === 'all' || cats.includes(f);
-      if (show) {
-        c.style.display = '';
-        c.style.animation = 'none';
-        void c.offsetHeight;
-        c.style.animation = `fadeUp .42s ease ${i++ * 0.07}s both`;
-      } else {
-        c.style.display = 'none';
-      }
+  const btns = document.querySelectorAll('.flt');
+  btns.forEach(btn => {
+    if (btn.dataset.filterBound) return;
+    btn.dataset.filterBound = '1';
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const f = btn.dataset.f;
+      let i = 0;
+      document.querySelectorAll('.car').forEach(c => {
+        const cats = (c.dataset.cat || '').split(' ');
+        const show = f === 'all' || cats.includes(f);
+        if (show) {
+          c.style.display = '';
+          c.style.animation = 'none';
+          void c.offsetHeight;
+          c.style.animation = `fadeUp .42s ease ${i++ * 0.07}s both`;
+        } else {
+          c.style.display = 'none';
+        }
+      });
     });
-  }));
+  });
 }
 
 /* ── FORM ── */

@@ -11,6 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 
+  <!-- Firebase SDK (read-only catalog) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
   <style>
     /* ═══════════════════════════════════════════════
        TOKENS
@@ -1233,109 +1237,7 @@
       <button class="flt" data-f="premium" data-i18n="cat.flt.premium">Премиум</button>
     </div>
     <div class="cat-grid" id="catGrid">
-
-      <div class="car" data-cat="suv premium" data-aos="fade-up" data-aos-delay="0">
-        <div class="car-img">
-          <img src="https://images.unsplash.com/photo-1612544449709-cd585d26ef88?auto=format&fit=crop&w=800&q=80"
-               alt="Genesis GV80 2025"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
-          <div class="car-img-fb" style="display:none">GENESIS GV80</div>
-          <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Premium</span>
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">Genesis GV80</h3>
-          <p class="car-spec">3.5T V6 · AWD · South Korea</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      </div>
-
-      <div class="car" data-cat="sedan premium" data-aos="fade-up" data-aos-delay="80">
-        <div class="car-img">
-          <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80"
-               alt="BMW M5 2025"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
-          <div class="car-img-fb" style="display:none">BMW M5</div>
-          <span class="badge">2025</span>
-          <span class="cat-tag">Sedan · Premium</span>
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">BMW M5</h3>
-          <p class="car-spec">4.4T V8 · xDrive · Germany</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      </div>
-
-      <div class="car" data-cat="suv premium" data-aos="fade-up" data-aos-delay="160">
-        <div class="car-img">
-          <img src="https://images.unsplash.com/photo-1618843986314-3b9f1e0d0607?auto=format&fit=crop&w=800&q=80"
-               alt="Mercedes GLE 2025"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
-          <div class="car-img-fb" style="display:none">MERCEDES GLE</div>
-          <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Premium</span>
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">Mercedes-Benz GLE</h3>
-          <p class="car-spec">3.0T I6 · 4MATIC · Germany</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      </div>
-
-      <div class="car" data-cat="suv electric" data-aos="fade-up" data-aos-delay="0">
-        <div class="car-img">
-          <img src="https://images.unsplash.com/photo-1682407003321-e5ea37f0e8b3?auto=format&fit=crop&w=800&q=80"
-               alt="Kia EV9 2025"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
-          <div class="car-img-fb" style="display:none">KIA EV9</div>
-          <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Electric</span>
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">Kia EV9</h3>
-          <p class="car-spec">Electric · AWD · 505 km range</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      </div>
-
-      <div class="car" data-cat="suv premium" data-aos="fade-up" data-aos-delay="80">
-        <div class="car-img">
-          <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"
-               alt="Toyota Land Cruiser 300 2025"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
-          <div class="car-img-fb" style="display:none">LAND CRUISER 300</div>
-          <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Premium</span>
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">Toyota Land Cruiser 300</h3>
-          <p class="car-spec">3.5T V6 · 4WD · Japan</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      </div>
-
-      <div class="car" data-cat="suv premium" data-aos="fade-up" data-aos-delay="160">
-        <div class="car-img">
-          <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=80"
-               alt="Cadillac Escalade 2025"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
-          <div class="car-img-fb" style="display:none">CADILLAC ESCALADE</div>
-          <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Premium</span>
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">Cadillac Escalade</h3>
-          <p class="car-spec">6.2L V8 · AWD · USA</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      </div>
-
+      <div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--muted);font-size:.85rem">Loading catalog...</div>
     </div>
   </div>
 </section>
@@ -1551,6 +1453,72 @@
 </div>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="firebase-config.js"></script>
 <script src="script.js"></script>
+<script>
+async function loadCatalog() {
+  const grid = document.getElementById('catGrid');
+  try {
+    const snap = await firebase.firestore()
+      .collection('vehicles')
+      .orderBy('order')
+      .get();
+
+    if (snap.empty) {
+      grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--muted);font-size:.85rem">No vehicles available yet.</div>';
+      return;
+    }
+
+    grid.innerHTML = '';
+    let idx = 0;
+    snap.forEach(doc => {
+      const v = doc.data();
+      const cats = (v.categories || []).join(' ');
+      const photo = v.photos && v.photos[0] ? v.photos[0] : '';
+      const catLabel = (v.categories || [])
+        .map(c => c.charAt(0).toUpperCase() + c.slice(1))
+        .join(' · ');
+      const delay = (idx % 3) * 80;
+
+      const card = document.createElement('div');
+      card.className = 'car';
+      card.dataset.cat = cats;
+      card.setAttribute('data-aos', 'fade-up');
+      card.setAttribute('data-aos-delay', delay);
+
+      card.innerHTML = `
+        <div class="car-img">
+          ${photo
+            ? `<img src="${photo}" alt="${v.name || ''}" loading="lazy"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+            : ''}
+          <div class="car-img-fb" style="display:${photo ? 'none' : 'flex'}">${(v.name || 'VEHICLE').toUpperCase()}</div>
+          ${v.badge ? `<span class="badge">${v.badge}</span>` : ''}
+          ${catLabel ? `<span class="cat-tag">${catLabel}</span>` : ''}
+        </div>
+        <div class="car-body">
+          <h3 class="car-name">${v.name || ''}</h3>
+          <p class="car-spec">${v.spec || ''}</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px"
+             data-i18n="cat.btn">Узнать цену →</a>
+        </div>
+      `;
+      grid.appendChild(card);
+      idx++;
+    });
+
+    // Re-apply language and re-attach filters to new cards
+    if (typeof setLang === 'function') setLang(localStorage.getItem('lang') || 'ru');
+    if (typeof initFilter === 'function') initFilter();
+
+  } catch (ex) {
+    console.error(ex);
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--muted);font-size:.85rem">Could not load catalog.</div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadCatalog);
+</script>
 </body>
 </html>
