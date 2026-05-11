@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AurenCars — профессиональный подбор, покупка и доставка автомобилей из Южной Кореи в Россию, Казахстан, Кыргызстан и Европу.">
+  <meta name="description" content="AurenCars — профессиональный подбор, покупка и доставка автомобилей из Южной Кореи в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию.">
   <title>AurenCars — Автомобили из Кореи</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Syne: bold geometric display | Cormorant Garamond: ultra-elegant editorial | DM Sans: refined body -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 
@@ -116,7 +115,6 @@
       line-height: 1.5;
     }
 
-    /* Ghost section number */
     .ghost-num {
       position: absolute;
       font-family: var(--fd);
@@ -131,7 +129,6 @@
       z-index: 0;
     }
 
-    /* Gold rule */
     .rule {
       display: block;
       width: 48px; height: 1px;
@@ -139,7 +136,6 @@
       margin: 24px 0;
     }
 
-    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -244,6 +240,28 @@
       border-color: var(--gold);
     }
 
+    /* Language toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .lang-btn {
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 6px 9px;
+      border: 1px solid transparent;
+      transition: color .25s ease, border-color .25s ease;
+    }
+    .lang-btn:hover { color: var(--text); }
+    .lang-btn.active {
+      color: var(--gold);
+      border-color: var(--border);
+    }
+
     .burger {
       display: none;
       flex-direction: column;
@@ -282,8 +300,15 @@
       border-bottom: 1px solid var(--border);
       transition: color .25s ease;
     }
-    .mob a:last-child { border-bottom: none; margin-top: 16px; }
+    .mob a:last-of-type { border-bottom: none; }
     .mob a:hover { color: var(--gold); }
+    .mob .btn { margin-top: 16px; }
+    .mob-lang {
+      display: flex;
+      gap: 4px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
 
     /* ═══════════════════════════════════════════════
        HERO
@@ -297,7 +322,6 @@
       background: var(--bg);
     }
 
-    /* Background image with gradient */
     .hero-bg {
       position: absolute;
       inset: 0;
@@ -308,7 +332,6 @@
       background-position: center;
     }
 
-    /* Diagonal bottom edge */
     .hero::after {
       content: '';
       position: absolute;
@@ -319,7 +342,6 @@
       z-index: 1;
     }
 
-    /* Gold horizontal sweep line on load */
     .hero-sweep {
       position: absolute;
       top: 48%;
@@ -339,14 +361,14 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       align-items: center;
       min-height: 100vh;
       padding-top: var(--nav);
       gap: 40px;
     }
 
-    .hero-left { padding: 80px 0; }
+    .hero-left { padding: 80px 0; max-width: 680px; }
 
     .hero-pre { margin-bottom: 28px; }
 
@@ -367,7 +389,7 @@
     .hero-sub {
       font-size: 1rem;
       color: var(--muted);
-      max-width: 420px;
+      max-width: 480px;
       line-height: 1.8;
     }
 
@@ -401,44 +423,6 @@
       margin-top: 6px;
     }
 
-    /* Car image - right side */
-    .hero-right {
-      position: relative;
-      height: 100%;
-      display: flex;
-      align-items: flex-end;
-    }
-    .hero-car {
-      position: absolute;
-      right: -80px;
-      bottom: -20px;
-      width: 110%;
-      max-width: 780px;
-      animation: driveIn 1.6s cubic-bezier(.22,1,.36,1) .2s both;
-      filter: drop-shadow(0 30px 80px rgba(0,0,0,.9));
-    }
-    .hero-car img {
-      width: 100%;
-      object-fit: contain;
-    }
-
-    /* Floating badge */
-    .hero-badge {
-      position: absolute;
-      top: 30%;
-      left: 0;
-      background: var(--gold);
-      color: #000;
-      font-family: var(--fd);
-      font-weight: 800;
-      font-size: .7rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      padding: 8px 18px;
-      animation: fadeInUp 1s ease 1.2s both;
-    }
-
-    /* Scroll indicator */
     .hero-scroll {
       position: absolute;
       bottom: 120px;
@@ -467,7 +451,6 @@
       50% { opacity: 1; }
     }
 
-    /* Floating particles */
     .particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
     .pt {
       position: absolute;
@@ -650,7 +633,6 @@
       color: #000;
     }
 
-    /* Editorial grid: first card is featured (spans 2 rows) */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -684,7 +666,6 @@
     }
     .car:hover .car-img img { transform: scale(1.06); filter: brightness(1); }
 
-    /* Gold overlay on hover */
     .car-img::after {
       content: '';
       position: absolute;
@@ -868,7 +849,6 @@
     .soc svg { width: 14px; height: 14px; flex-shrink: 0; }
     .soc:hover { border-color: var(--gold); color: var(--gold); }
 
-    /* Form - underline style */
     .cform { position: relative; }
     .fg { margin-bottom: 28px; }
     .fg label {
@@ -897,7 +877,6 @@
     .fg textarea { resize: none; min-height: 100px; }
     .form-note { font-size: .7rem; color: var(--muted); margin-top: 16px; }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 32px; right: 32px;
@@ -923,7 +902,6 @@
       overflow: hidden;
     }
 
-    /* Giant background wordmark */
     .footer-wordmark {
       position: absolute;
       bottom: -20px; left: -10px;
@@ -1012,8 +990,6 @@
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .con-grid { grid-template-columns: 1fr; gap: 56px; }
       .foot-top { grid-template-columns: 1fr 1fr; }
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
       .hero-bg {
         background-image:
           linear-gradient(rgba(8,8,14,.92), rgba(8,8,14,.92)),
@@ -1055,24 +1031,32 @@
       <span class="logo-a">Auren</span><span class="logo-b">Cars</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#about">О нас</a></li>
-      <li><a href="#services">Услуги</a></li>
-      <li><a href="#catalog">Каталог</a></li>
-      <li><a href="#reviews">Отзывы</a></li>
-      <li><a href="#contact">Контакты</a></li>
+      <li><a href="#about" data-i18n="nav.about">О нас</a></li>
+      <li><a href="#services" data-i18n="nav.services">Услуги</a></li>
+      <li><a href="#catalog" data-i18n="nav.catalog">Каталог</a></li>
+      <li><a href="#reviews" data-i18n="nav.reviews">Отзывы</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Контакты</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">Консультация</a>
+    <div class="lang-toggle" aria-label="Language">
+      <button class="lang-btn" data-lang="ru">RU</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="#contact" class="nav-cta" data-i18n="nav.cta">Консультация</a>
     <button class="burger" id="burger" aria-label="Меню">
       <span></span><span></span><span></span>
     </button>
   </div>
   <div class="mob" id="mob">
-    <a href="#about">О нас</a>
-    <a href="#services">Услуги</a>
-    <a href="#catalog">Каталог</a>
-    <a href="#reviews">Отзывы</a>
-    <a href="#contact">Контакты</a>
-    <a href="#contact" class="btn btn-gold">Получить консультацию</a>
+    <a href="#about" data-i18n="nav.about">О нас</a>
+    <a href="#services" data-i18n="nav.services">Услуги</a>
+    <a href="#catalog" data-i18n="nav.catalog">Каталог</a>
+    <a href="#reviews" data-i18n="nav.reviews">Отзывы</a>
+    <a href="#contact" data-i18n="nav.contact">Контакты</a>
+    <div class="mob-lang">
+      <button class="lang-btn" data-lang="ru">RU</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="#contact" class="btn btn-gold" data-i18n="nav.mob.cta">Получить консультацию</a>
   </div>
 </nav>
 
@@ -1085,50 +1069,39 @@
   <div class="wrap" style="width:100%;position:relative;z-index:2;">
     <div class="hero-inner">
       <div class="hero-left">
-        <p class="tag hero-pre" data-aos="fade-up" data-aos-delay="200">Автомобили из Южной Кореи</p>
-        <h1 class="hero-h1 display" data-aos="fade-up" data-aos-delay="350">
+        <p class="tag hero-pre" data-aos="fade-up" data-aos-delay="200" data-i18n="hero.tag">Автомобили из Южной Кореи</p>
+        <h1 class="hero-h1 display" data-aos="fade-up" data-aos-delay="350" data-i18n-html="hero.h1">
           Ваш<br>идеальный<br>
           <em>автомобиль</em>
         </h1>
         <span class="rule" data-aos="fade-right" data-aos-delay="500"></span>
-        <p class="hero-sub" data-aos="fade-up" data-aos-delay="550">
-          Подбираем, выкупаем и доставляем автомобили в Россию, Казахстан, Кыргызстан и Европу.
+        <p class="hero-sub" data-aos="fade-up" data-aos-delay="550" data-i18n="hero.sub">
+          Подбираем и доставляем машины из Кореи в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию.
         </p>
         <div class="hero-actions" data-aos="fade-up" data-aos-delay="650">
-          <a href="#contact" class="btn btn-gold">→ Подобрать автомобиль</a>
-          <a href="#catalog" class="btn btn-outline">Каталог 2025</a>
+          <a href="#contact" class="btn btn-gold" data-i18n="hero.btn1">→ Подобрать автомобиль</a>
+          <a href="#catalog" class="btn btn-outline" data-i18n="hero.btn2">Каталог 2025</a>
         </div>
         <div class="hero-nums" data-aos="fade-up" data-aos-delay="750">
           <div>
-            <span class="hero-num-n">5+</span>
-            <p class="hero-num-l">Лет опыта</p>
+            <span class="hero-num-n">11</span>
+            <p class="hero-num-l" data-i18n="hero.num1.label">Лет опыта</p>
           </div>
           <div>
-            <span class="hero-num-n">300+</span>
-            <p class="hero-num-l">Клиентов</p>
+            <span class="hero-num-n">4 200+</span>
+            <p class="hero-num-l" data-i18n="hero.num2.label">Авто экспортировано</p>
           </div>
           <div>
-            <span class="hero-num-n">4</span>
-            <p class="hero-num-l">Страны</p>
+            <span class="hero-num-n">8</span>
+            <p class="hero-num-l" data-i18n="hero.num3.label">Стран</p>
           </div>
         </div>
-      </div>
-
-      <div class="hero-right">
-        <div class="hero-car" id="heroCar">
-          <img
-            src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80"
-            alt="Премиальный автомобиль"
-            onerror="this.parentElement.style.display='none'"
-          >
-        </div>
-        <div class="hero-badge">2025 Модельный год</div>
       </div>
     </div>
   </div>
 
   <div class="hero-scroll" aria-hidden="true">
-    <span class="hero-scroll-txt">Скролл</span>
+    <span class="hero-scroll-txt" data-i18n="hero.scroll">Скролл</span>
     <div class="hero-scroll-line"></div>
   </div>
 </section>
@@ -1140,37 +1113,37 @@
       <div class="about-copy">
         <div class="sec-header" style="position:relative">
           <div class="ghost-num" aria-hidden="true">01</div>
-          <p class="tag" data-aos="fade-up">О компании</p>
-          <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100">
-            5 лет.<br>Одна цель.
+          <p class="tag" data-aos="fade-up" data-i18n="about.tag">О компании</p>
+          <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="about.h2">
+            11 лет.<br>Одна цель.
           </h2>
-          <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150">
-            Прозрачность и профессионализм — в каждой сделке
+          <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150" data-i18n="about.editorial">
+            Честно и без лишних слов — в каждой сделке
           </p>
         </div>
-        <p class="about-body" data-aos="fade-up" data-aos-delay="200">
-          <strong>AurenCars</strong> — команда профессионалов с опытом более 5 лет в сфере подбора и международной доставки автомобилей из Южной Кореи. Работаем напрямую с корейскими дилерами — никаких посредников.
+        <p class="about-body" data-aos="fade-up" data-aos-delay="200" data-i18n-html="about.body1">
+          <strong>AurenCars</strong> работает из Кореи уже 11 лет. Напрямую с корейскими дилерами — никаких посредников.
         </p>
-        <p class="about-body" data-aos="fade-up" data-aos-delay="250">
-          Доставляем в <strong>Россию, Казахстан, Кыргызстан</strong> и Европу. Полная прозрачность, договор на каждую сделку, отслеживание груза на всех этапах.
+        <p class="about-body" data-aos="fade-up" data-aos-delay="250" data-i18n-html="about.body2">
+          Доставляем в <strong>Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан</strong> и Албанию. Каждая сделка — по договору.
         </p>
       </div>
       <div class="stats" id="stats" data-aos="fade-left" data-aos-delay="100">
         <div class="stat">
-          <span class="stat-n" data-count="5" data-sfx="+">0+</span>
-          <span class="stat-l">Лет на рынке</span>
+          <span class="stat-n" data-count="11" data-sfx="">0</span>
+          <span class="stat-l" data-i18n="about.stat1.label">Лет на рынке</span>
         </div>
         <div class="stat">
-          <span class="stat-n" data-count="300" data-sfx="+">0+</span>
-          <span class="stat-l">Клиентов</span>
+          <span class="stat-n" data-count="4200" data-sfx="+">0+</span>
+          <span class="stat-l" data-i18n="about.stat2.label">Экспортировано авто</span>
         </div>
         <div class="stat">
-          <span class="stat-n" data-count="4" data-sfx="">0</span>
-          <span class="stat-l">Страны доставки</span>
+          <span class="stat-n" data-count="8" data-sfx="">0</span>
+          <span class="stat-l" data-i18n="about.stat3.label">Стран доставки</span>
         </div>
         <div class="stat">
           <span class="stat-n" data-count="100" data-sfx="%">0%</span>
-          <span class="stat-l">Прозрачность</span>
+          <span class="stat-l" data-i18n="about.stat4.label">Прозрачность</span>
         </div>
       </div>
     </div>
@@ -1182,16 +1155,16 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">02</div>
-      <p class="tag" data-aos="fade-up">Услуги</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100">От подбора<br>до ключей</h2>
-      <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150">Полное сопровождение — вам не нужно ни о чём думать</p>
+      <p class="tag" data-aos="fade-up" data-i18n="srv.tag">Услуги</p>
+      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="srv.h2">От подбора<br>до ключей</h2>
+      <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150" data-i18n="srv.editorial">Берём на себя всё — вам только принять машину</p>
     </div>
     <div class="srv-list">
       <div class="srv" data-aos="fade-up" data-aos-delay="0">
         <span class="srv-num">01</span>
         <div class="srv-body">
-          <h3>Подбор автомобиля</h3>
-          <p>Анализируем рынок Южной Кореи и находим автомобиль точно по вашим параметрам — марка, комплектация, цвет, бюджет.</p>
+          <h3 data-i18n="srv.1.title">Подбор автомобиля</h3>
+          <p data-i18n="srv.1.body">Смотрим корейский рынок и находим нужную машину — по марке, комплектации, цвету и бюджету.</p>
         </div>
         <div class="srv-icon">
           <svg fill="none" stroke="#C4922A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -1202,8 +1175,8 @@
       <div class="srv" data-aos="fade-up" data-aos-delay="80">
         <span class="srv-num">02</span>
         <div class="srv-body">
-          <h3>Оформление и выкуп</h3>
-          <p>Полное юридическое сопровождение сделки. Выкупаем автомобиль у официальных корейских дилеров строго по договору.</p>
+          <h3 data-i18n="srv.2.title">Оформление и выкуп</h3>
+          <p data-i18n="srv.2.body">Выкупаем у официальных дилеров по договору. Полное юридическое сопровождение.</p>
         </div>
         <div class="srv-icon">
           <svg fill="none" stroke="#C4922A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -1216,8 +1189,8 @@
       <div class="srv" data-aos="fade-up" data-aos-delay="160">
         <span class="srv-num">03</span>
         <div class="srv-body">
-          <h3>Международная доставка</h3>
-          <p>Доставляем в Россию, Казахстан, Кыргызстан и Европу. Морской и автомобильный транспорт. Отслеживание на всех этапах.</p>
+          <h3 data-i18n="srv.3.title">Международная доставка</h3>
+          <p data-i18n="srv.3.body">Доставляем в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию. Морской и автомобильный транспорт.</p>
         </div>
         <div class="srv-icon">
           <svg fill="none" stroke="#C4922A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -1230,8 +1203,8 @@
       <div class="srv" data-aos="fade-up" data-aos-delay="240">
         <span class="srv-num">04</span>
         <div class="srv-body">
-          <h3>Гарантия и поддержка</h3>
-          <p>Сопровождаем на каждом этапе. Консультации 24/7 по WhatsApp. Прозрачные цены, чёткие сроки, никаких сюрпризов.</p>
+          <h3 data-i18n="srv.4.title">Гарантия и поддержка</h3>
+          <p data-i18n="srv.4.body">Всегда на связи по WhatsApp. Никаких скрытых платежей и сюрпризов.</p>
         </div>
         <div class="srv-icon">
           <svg fill="none" stroke="#C4922A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -1249,15 +1222,15 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">03</div>
-      <p class="tag" data-aos="fade-up">Каталог</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100">Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2025 года</em></h2>
+      <p class="tag" data-aos="fade-up" data-i18n="cat.tag">Каталог</p>
+      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="cat.h2">Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2025 года</em></h2>
     </div>
     <div class="filters" data-aos="fade-up">
-      <button class="flt on" data-f="all">Все модели</button>
-      <button class="flt" data-f="sedan">Седаны</button>
-      <button class="flt" data-f="suv">SUV</button>
-      <button class="flt" data-f="electric">Электро</button>
-      <button class="flt" data-f="premium">Премиум</button>
+      <button class="flt on" data-f="all" data-i18n="cat.flt.all">Все модели</button>
+      <button class="flt" data-f="sedan" data-i18n="cat.flt.sedan">Седаны</button>
+      <button class="flt" data-f="suv" data-i18n="cat.flt.suv">SUV</button>
+      <button class="flt" data-f="electric" data-i18n="cat.flt.electric">Электро</button>
+      <button class="flt" data-f="premium" data-i18n="cat.flt.premium">Премиум</button>
     </div>
     <div class="cat-grid" id="catGrid">
 
@@ -1268,13 +1241,13 @@
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
           <div class="car-img-fb" style="display:none">GENESIS GV80</div>
           <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Премиум</span>
+          <span class="cat-tag">SUV · Premium</span>
         </div>
         <div class="car-body">
           <h3 class="car-name">Genesis GV80</h3>
-          <p class="car-spec">3.5T V6 · AWD · Южная Корея</p>
-          <p class="car-price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px">Узнать цену →</a>
+          <p class="car-spec">3.5T V6 · AWD · South Korea</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
         </div>
       </div>
 
@@ -1285,13 +1258,13 @@
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
           <div class="car-img-fb" style="display:none">BMW M5</div>
           <span class="badge">2025</span>
-          <span class="cat-tag">Седан · Премиум</span>
+          <span class="cat-tag">Sedan · Premium</span>
         </div>
         <div class="car-body">
           <h3 class="car-name">BMW M5</h3>
-          <p class="car-spec">4.4T V8 · xDrive · Германия</p>
-          <p class="car-price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px">Узнать цену →</a>
+          <p class="car-spec">4.4T V8 · xDrive · Germany</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
         </div>
       </div>
 
@@ -1302,13 +1275,13 @@
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
           <div class="car-img-fb" style="display:none">MERCEDES GLE</div>
           <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Премиум</span>
+          <span class="cat-tag">SUV · Premium</span>
         </div>
         <div class="car-body">
           <h3 class="car-name">Mercedes-Benz GLE</h3>
-          <p class="car-spec">3.0T I6 · 4MATIC · Германия</p>
-          <p class="car-price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px">Узнать цену →</a>
+          <p class="car-spec">3.0T I6 · 4MATIC · Germany</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
         </div>
       </div>
 
@@ -1319,13 +1292,13 @@
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
           <div class="car-img-fb" style="display:none">KIA EV9</div>
           <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Электро</span>
+          <span class="cat-tag">SUV · Electric</span>
         </div>
         <div class="car-body">
           <h3 class="car-name">Kia EV9</h3>
-          <p class="car-spec">Электро · AWD · 505 км запас хода</p>
-          <p class="car-price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px">Узнать цену →</a>
+          <p class="car-spec">Electric · AWD · 505 km range</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
         </div>
       </div>
 
@@ -1336,13 +1309,13 @@
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
           <div class="car-img-fb" style="display:none">LAND CRUISER 300</div>
           <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Премиум</span>
+          <span class="cat-tag">SUV · Premium</span>
         </div>
         <div class="car-body">
           <h3 class="car-name">Toyota Land Cruiser 300</h3>
-          <p class="car-spec">3.5T V6 · 4WD · Япония</p>
-          <p class="car-price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px">Узнать цену →</a>
+          <p class="car-spec">3.5T V6 · 4WD · Japan</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
         </div>
       </div>
 
@@ -1353,13 +1326,13 @@
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy">
           <div class="car-img-fb" style="display:none">CADILLAC ESCALADE</div>
           <span class="badge">2025</span>
-          <span class="cat-tag">SUV · Премиум</span>
+          <span class="cat-tag">SUV · Premium</span>
         </div>
         <div class="car-body">
           <h3 class="car-name">Cadillac Escalade</h3>
-          <p class="car-spec">6.2L V8 · AWD · США</p>
-          <p class="car-price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px">Узнать цену →</a>
+          <p class="car-spec">6.2L V8 · AWD · USA</p>
+          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
+          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px" data-i18n="cat.btn">Узнать цену →</a>
         </div>
       </div>
 
@@ -1372,55 +1345,55 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">04</div>
-      <p class="tag" data-aos="fade-up">Отзывы</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100">Что говорят<br>клиенты</h2>
+      <p class="tag" data-aos="fade-up" data-i18n="rev.tag">Отзывы</p>
+      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="rev.h2">Что говорят<br>клиенты</h2>
     </div>
     <div class="rev-grid">
       <div class="rev" data-aos="fade-up" data-aos-delay="0">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
-        <p class="rev-text">«Заказывал Genesis GV80 — всё прошло гладко. Менеджер на связи 24/7, машина приехала раньше срока. Рекомендую!»</p>
+        <p class="rev-text" data-i18n="rev.1.text">«Заказывал Genesis GV80 — всё прошло без лишней суеты. Менеджер всегда на связи, машина приехала раньше срока.»</p>
         <div class="rev-auth">
           <div class="ava">АМ</div>
           <div>
             <div class="rev-name">Алексей М.</div>
-            <div class="rev-city">🇷🇺 Москва, Россия</div>
+            <div class="rev-city" data-i18n="rev.1.city">🇷🇺 Москва, Россия</div>
           </div>
         </div>
       </div>
       <div class="rev" data-aos="fade-up" data-aos-delay="100">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
-        <p class="rev-text">«Давно хотела Kia EV9. Ребята помогли с выбором, оформили документы и доставили в Казахстан без проблем. Спасибо!»</p>
+        <p class="rev-text" data-i18n="rev.2.text">«Давно хотела Kia EV9. Ребята помогли с выбором, оформили и привезли без вопросов. Спасибо.»</p>
         <div class="rev-auth">
           <div class="ava">ДК</div>
           <div>
             <div class="rev-name">Дина К.</div>
-            <div class="rev-city">🇰🇿 Алматы, Казахстан</div>
+            <div class="rev-city" data-i18n="rev.2.city">🇰🇿 Алматы, Казахстан</div>
           </div>
         </div>
       </div>
       <div class="rev" data-aos="fade-up" data-aos-delay="0">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
-        <p class="rev-text">«Брали Toyota LC300. Всё прозрачно, цена честная, никаких скрытых платежей. Доставили в Кыргызстан чётко в срок.»</p>
+        <p class="rev-text" data-i18n="rev.3.text">«Брал Toyota LC300 для работы. Цена честная, сроки чёткие, привезли точно в срок. Всё как договаривались.»</p>
         <div class="rev-auth">
-          <div class="ava">РТ</div>
+          <div class="ava">ТК</div>
           <div>
-            <div class="rev-name">Руслан Т.</div>
-            <div class="rev-city">🇰🇬 Бишкек, Кыргызстан</div>
+            <div class="rev-name" data-i18n="rev.3.name">Томас К.</div>
+            <div class="rev-city" data-i18n="rev.3.city">🇩🇪 Гамбург, Германия</div>
           </div>
         </div>
       </div>
       <div class="rev" data-aos="fade-up" data-aos-delay="100">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
-        <p class="rev-text">«Второй раз в AurenCars. BMW M5 мечты — теперь моя. Быстро, профессионально, всё по договору. Лучший сервис!»</p>
+        <p class="rev-text" data-i18n="rev.4.text">«Второй раз в AurenCars. BMW M5 оформили быстро, всё по договору. Лучший вариант для импорта.»</p>
         <div class="rev-auth">
           <div class="ava">СВ</div>
           <div>
             <div class="rev-name">Сергей В.</div>
-            <div class="rev-city">🇷🇺 Санкт-Петербург</div>
+            <div class="rev-city" data-i18n="rev.4.city">🇷🇺 Санкт-Петербург</div>
           </div>
         </div>
       </div>
@@ -1433,9 +1406,9 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">05</div>
-      <p class="tag" data-aos="fade-up">Контакты</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100">Оставьте заявку</h2>
-      <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150">Мы перезвоним в течение часа</p>
+      <p class="tag" data-aos="fade-up" data-i18n="con.tag">Контакты</p>
+      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n="con.h2">Оставьте заявку</h2>
+      <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150" data-i18n="con.editorial">Ответим в течение часа</p>
     </div>
     <div class="con-grid">
       <div data-aos="fade-right">
@@ -1469,8 +1442,8 @@
             </svg>
           </div>
           <div>
-            <div class="clabel">Режим работы</div>
-            <div class="cval">Пн–Сб 9:00–21:00 (Seoul)</div>
+            <div class="clabel" data-i18n="con.hours.label">Режим работы</div>
+            <div class="cval" data-i18n="con.hours.val">Пн–Сб 9:00–21:00 (Seoul)</div>
           </div>
         </div>
         <div class="cinfo-item">
@@ -1480,8 +1453,8 @@
             </svg>
           </div>
           <div>
-            <div class="clabel">Расположение</div>
-            <div class="cval">Южная Корея, Сеул</div>
+            <div class="clabel" data-i18n="con.loc.label">Расположение</div>
+            <div class="cval" data-i18n="con.loc.val">Южная Корея, Сеул</div>
           </div>
         </div>
         <div class="socials">
@@ -1503,25 +1476,25 @@
       <div data-aos="fade-left">
         <form class="cform" id="cform" novalidate>
           <div class="fg">
-            <label>Ваше имя *</label>
-            <input type="text" name="name" placeholder="Иван Иванов" required>
+            <label data-i18n="con.form.name">Ваше имя *</label>
+            <input type="text" name="name" data-i18n-placeholder="con.form.name.ph" placeholder="Иван Иванов" required>
           </div>
           <div class="fg">
-            <label>Телефон *</label>
-            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
+            <label data-i18n="con.form.phone">Телефон *</label>
+            <input type="tel" name="phone" data-i18n-placeholder="con.form.phone.ph" placeholder="+7 (___) ___-__-__" required>
           </div>
           <div class="fg">
-            <label>Желаемый автомобиль</label>
-            <input type="text" name="car" placeholder="Genesis GV80, BMW M5...">
+            <label data-i18n="con.form.car">Желаемый автомобиль</label>
+            <input type="text" name="car" data-i18n-placeholder="con.form.car.ph" placeholder="Genesis GV80, BMW M5...">
           </div>
           <div class="fg">
-            <label>Сообщение</label>
-            <textarea name="msg" rows="4" placeholder="Расскажите о пожеланиях..."></textarea>
+            <label data-i18n="con.form.msg">Сообщение</label>
+            <textarea name="msg" rows="4" data-i18n-placeholder="con.form.msg.ph" placeholder="Расскажите о пожеланиях..."></textarea>
           </div>
-          <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px">
+          <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px" data-i18n="con.form.submit">
             → Отправить заявку
           </button>
-          <p class="form-note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+          <p class="form-note" data-i18n="con.form.note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
         </form>
       </div>
     </div>
@@ -1535,7 +1508,7 @@
     <div class="foot-top">
       <div class="foot-brand">
         <a href="#home" class="logo"><span class="logo-a">Auren</span><span class="logo-b">Cars</span></a>
-        <p>Автомобили из Кореи для всего мира. Профессиональный подбор, выкуп и доставка с 2019 года.</p>
+        <p data-i18n="foot.brand">Машины из Кореи — по всему миру. Работаем с 2014 года.</p>
         <div class="socials">
           <a href="https://wa.me/821077817209" target="_blank" rel="noopener" class="soc">
             <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
@@ -1548,33 +1521,33 @@
         </div>
       </div>
       <div class="foot-nav">
-        <div class="foot-h">Навигация</div>
+        <div class="foot-h" data-i18n="foot.nav.h">Навигация</div>
         <ul>
-          <li><a href="#about">О компании</a></li>
-          <li><a href="#services">Услуги</a></li>
-          <li><a href="#catalog">Каталог 2025</a></li>
-          <li><a href="#reviews">Отзывы</a></li>
-          <li><a href="#contact">Контакты</a></li>
+          <li><a href="#about" data-i18n="foot.nav.about">О компании</a></li>
+          <li><a href="#services" data-i18n="foot.nav.services">Услуги</a></li>
+          <li><a href="#catalog" data-i18n="foot.nav.catalog">Каталог 2025</a></li>
+          <li><a href="#reviews" data-i18n="foot.nav.reviews">Отзывы</a></li>
+          <li><a href="#contact" data-i18n="foot.nav.contact">Контакты</a></li>
         </ul>
       </div>
       <div>
-        <div class="foot-h">Контакты</div>
+        <div class="foot-h" data-i18n="foot.con.h">Контакты</div>
         <div class="foot-citem">📱 <a href="https://wa.me/821077817209" target="_blank">+82 10 7781 7209</a></div>
         <div class="foot-citem">📧 <a href="mailto:aurencars666@gmail.com">aurencars666@gmail.com</a></div>
-        <div class="foot-citem">📍 <span>Южная Корея, Сеул</span></div>
-        <div class="foot-citem">🕐 <span>Пн–Сб 9:00–21:00 KST</span></div>
+        <div class="foot-citem">📍 <span data-i18n="foot.loc">Южная Корея, Сеул</span></div>
+        <div class="foot-citem">🕐 <span data-i18n="foot.hours">Пн–Сб 9:00–21:00 KST</span></div>
       </div>
     </div>
     <div class="foot-bot">
-      <span>© 2019–2025 AurenCars. Все права защищены.</span>
-      <a href="#">Политика конфиденциальности</a>
+      <span data-i18n="foot.copy">© 2014–2025 AurenCars. Все права защищены.</span>
+      <a href="#" data-i18n="foot.privacy">Политика конфиденциальности</a>
     </div>
   </div>
 </footer>
 
 <div class="toast" id="toast">
-  <div class="toast-t">✓ Заявка отправлена</div>
-  <div class="toast-m">Мы свяжемся с вами в течение часа.</div>
+  <div class="toast-t" data-i18n="toast.title">✓ Заявка отправлена</div>
+  <div class="toast-m" data-i18n="toast.msg">Мы свяжемся с вами в течение часа.</div>
 </div>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
