@@ -11,10 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 
-  <!-- Firebase SDK (read-only catalog) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
   <style>
     /* ═══════════════════════════════════════════════
        TOKENS
@@ -1047,6 +1043,159 @@
       .hero-h1 { font-size: clamp(2.8rem, 10vw, 4rem); }
       .toast { right: 16px; left: 16px; max-width: none; }
     }
+
+    /* ═══════════════════════════════════════════════
+       CAR OVERLAY
+    ═══════════════════════════════════════════════ */
+    .car-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .35s ease;
+      z-index: 2;
+    }
+    .car:hover .car-overlay { opacity: 1; }
+    .car-overlay span {
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.7);
+      padding: 8px 20px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       LIGHTBOX
+    ═══════════════════════════════════════════════ */
+    .lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.97);
+      z-index: 3000;
+      flex-direction: column;
+      align-items: center;
+    }
+    .lb.open { display: flex; }
+
+    .lb-header {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px 12px;
+      flex-shrink: 0;
+    }
+    .lb-title {
+      font-family: var(--fb);
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 60px);
+    }
+    .lb-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: color .2s;
+      flex-shrink: 0;
+    }
+    .lb-close:hover { color: var(--text); }
+
+    .lb-stage {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      min-height: 0;
+    }
+    .lb-img-wrap {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .lb-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: opacity .2s ease;
+    }
+    .lb-img.lb-loading { opacity: 0; }
+
+    .lb-arrow {
+      flex-shrink: 0;
+      width: 44px;
+      height: 72px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--muted);
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .lb-arrow:hover { background: rgba(196,146,42,.2); color: var(--gold); }
+
+    .lb-counter {
+      flex-shrink: 0;
+      text-align: center;
+      font-size: .68rem;
+      color: var(--muted);
+      letter-spacing: .18em;
+      padding: 10px 0 6px;
+    }
+    .lb-strip {
+      flex-shrink: 0;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 0 16px 16px;
+      width: 100%;
+      max-width: 1200px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .lb-thumb {
+      flex-shrink: 0;
+      width: 72px;
+      height: 52px;
+      object-fit: cover;
+      opacity: .4;
+      cursor: pointer;
+      transition: opacity .2s;
+      border: 2px solid transparent;
+    }
+    .lb-thumb:hover { opacity: .75; }
+    .lb-thumb.active { opacity: 1; border-color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .lb-arrow { width: 36px; height: 56px; font-size: 1.3rem; }
+      .lb-thumb { width: 52px; height: 38px; }
+      .lb-title { font-size: .7rem; }
+    }
   </style>
 </head>
 <body>
@@ -1513,78 +1662,29 @@
   </div>
 </footer>
 
+<!-- ══════════════ LIGHTBOX ══════════════ -->
+<div class="lb" id="lightbox">
+  <div class="lb-header">
+    <div class="lb-title" id="lbTitle"></div>
+    <button class="lb-close" onclick="closeLb()">×</button>
+  </div>
+  <div class="lb-stage">
+    <button class="lb-arrow" onclick="lbNav(-1)">&#8249;</button>
+    <div class="lb-img-wrap">
+      <img class="lb-img" id="lbImg" src="" alt="">
+    </div>
+    <button class="lb-arrow" onclick="lbNav(1)">&#8250;</button>
+  </div>
+  <div class="lb-counter" id="lbCounter"></div>
+  <div class="lb-strip" id="lbStrip"></div>
+</div>
+
 <div class="toast" id="toast">
   <div class="toast-t" data-i18n="toast.title">✓ Заявка отправлена</div>
   <div class="toast-m" data-i18n="toast.msg">Мы свяжемся с вами в течение часа.</div>
 </div>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="firebase-config.js"></script>
 <script src="script.js"></script>
-<script>
-async function loadCatalog() {
-  const grid = document.getElementById('catGrid');
-  try {
-    const snap = await firebase.firestore()
-      .collection('vehicles')
-      .orderBy('order')
-      .get();
-
-    if (snap.empty) {
-      grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--muted);font-size:.85rem">No vehicles available yet.</div>';
-      return;
-    }
-
-    grid.innerHTML = '';
-    let idx = 0;
-    snap.forEach(doc => {
-      const v = doc.data();
-      const cats = (v.categories || []).join(' ');
-      const photo = v.photos && v.photos[0] ? v.photos[0] : '';
-      const catLabel = (v.categories || [])
-        .map(c => c.charAt(0).toUpperCase() + c.slice(1))
-        .join(' · ');
-      const delay = (idx % 3) * 80;
-
-      const card = document.createElement('div');
-      card.className = 'car';
-      card.dataset.cat = cats;
-      card.setAttribute('data-aos', 'fade-up');
-      card.setAttribute('data-aos-delay', delay);
-
-      card.innerHTML = `
-        <div class="car-img">
-          ${photo
-            ? `<img src="${photo}" alt="${v.name || ''}" loading="lazy"
-                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-            : ''}
-          <div class="car-img-fb" style="display:${photo ? 'none' : 'flex'}">${(v.name || 'VEHICLE').toUpperCase()}</div>
-          ${v.badge ? `<span class="badge">${v.badge}</span>` : ''}
-          ${catLabel ? `<span class="cat-tag">${catLabel}</span>` : ''}
-        </div>
-        <div class="car-body">
-          <h3 class="car-name">${v.name || ''}</h3>
-          <p class="car-spec">${v.spec || ''}</p>
-          <p class="car-price" data-i18n="cat.price">Цена по запросу</p>
-          <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px"
-             data-i18n="cat.btn">Узнать цену →</a>
-        </div>
-      `;
-      grid.appendChild(card);
-      idx++;
-    });
-
-    // Re-apply language and re-attach filters to new cards
-    if (typeof setLang === 'function') setLang(localStorage.getItem('lang') || 'ru');
-    if (typeof initFilter === 'function') initFilter();
-
-  } catch (ex) {
-    console.error(ex);
-    grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--muted);font-size:.85rem">Could not load catalog.</div>';
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadCatalog);
-</script>
 </body>
 </html>

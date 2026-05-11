@@ -1,13 +1,258 @@
+/* ─── Google Drive photo URL helper ─── */
+function gd(id, size) { return `https://drive.google.com/thumbnail?id=${id}&sz=${size||'w1200'}`; }
+
+/* ─── Car data ─── */
+const CARS = [
+  {
+    id: 'bmw-x5-2014',
+    name: 'BMW X5',
+    year: '2014',
+    mileage: '137 000 km',
+    spec: '3.0 diesel · xDrive',
+    categories: ['suv', 'premium'],
+    photos: [
+      '1sJTYSSDsv_YOjQAYGjUq_7DTDG26TTrr',
+      '1uVoKaGEvdjUJi-Nd1Njo-B341G4Kftrs',
+      '1ontg5BwHtLTsc2g_0vXfMu_TB9hyNhH8',
+      '1iKXoAZaKqWtoJbZHaKNrX-xtDhP-Akv4',
+      '1Sqaqqy9zU8UcFe0LynwWjL0HB207R411',
+      '14CUwWfHRy1Z2NynXUxrw6YAFfDAsgZst',
+      '16qSQVnNgj7W4gKeVyKTpB3xbCnNiNUND',
+      '1f2eF4OSQ2bY16XaWYCzxBRInYXrtJIrW',
+      '1R8dKq6x_xpO4xwL90DA5MNp4rGq1NpI1',
+      '1syxBe9zxsbcmQ-YVcoARYVrtySH8QcIq',
+      '1CWs9wzvjKYZrPMPa7El5F2qG6nODvJx5',
+      '1DenBTL65eDZJ9CofOuKEQGmszv7H4H3e',
+      '1KssQxV-0gp_8XcMna5Robv_Kah2TMqgm',
+      '1E-qpoOgkHCLLkoUzba1tQ__w-eSAYw4c',
+    ]
+  },
+  {
+    id: 'bmw-x5-2018',
+    name: 'BMW X5',
+    year: '2018',
+    mileage: '112 000 km',
+    spec: '3.0 diesel · xDrive',
+    categories: ['suv', 'premium'],
+    photos: [
+      '1-_iwGIEKKGkl8eTs6EQHbz1z0oql-u8f',
+      '12tzqioLSJ1rnH7iwlvn5KlTfhj2GfUT6',
+      '1-4465uPwvClQl1ip6nMaCv_p0wHlmgct',
+      '1W0BVuYrWepsyJWTUyo50J-PQm9yCSSUV',
+      '1XoWoiEuFlyhTox3oiQwmHsPMsLye8hEl',
+      '1TVKw0px21wgdqhLDYrDXxnoYO7ujdunF',
+      '1Jsnqq_6oqdAophJyl-9OclSUxSUVRBcG',
+      '1VTBRgNfElWJoxT9EcIr03f9AhBMiFy4A',
+      '1xnk0SEidNRSs3ujdgnLeOBZghs-4rt_3',
+      '1vrXn8waSzzC3I_18bS2n6AqNsYXirYm7',
+      '1QWNOx5lYHVCkhAWGDR69nyxSLHwsvNKI',
+      '1QC0I5HZL3JQU1X9nF0e7XDL1TY_W_8G_',
+      '1tKB4y4lPurw5ImkkUVgUm9xxPLI0Qe5d',
+      '12yN2UfcE5ba_VvV6sjNXhzVMrr1GMdIS',
+    ]
+  },
+  {
+    id: 'bmw-520d-2016',
+    name: 'BMW 520d',
+    year: '2016',
+    mileage: '86 000 km',
+    spec: '2.0T diesel · M Aerodynamic',
+    categories: ['sedan', 'premium'],
+    photos: [
+      '1kMJApLj1wcuc3DXvx-gGXCbZKDNfGymD',
+      '1edDWX7YbvfkB-Uol429E8A-a3hzFSqHt',
+      '1QQbf2sTDMRavIUwWNTGAXXNPAQbLyxOj',
+      '13xBgAs50D65S333liCWkWYh3jLUcyyGY',
+      '12M2nxGx7sw5Jl4D_efys9usvrENCVfzf',
+      '1sQndpD0Fc6e1Pl2QcfzkcVVCjOdhIItL',
+      '1BnUvHXuR500mOvhUd9ydaNXhHBXJvhTb',
+      '1LwIw_od8W1qriALnQotIYRfhm_yDMTsn',
+      '1wXt6N5SwysY_X9xscJ64O8GcdS0mJmbT',
+      '1UtsxMdxtc7xM8cw6gVOqP2ry1l7XsAii',
+      '1PIilqxvlvihh9hGfao2btHvb5KuEaDM7',
+      '1d0kJsAVeyjfCd6_IWP2xgVL4p8Bcdda1',
+      '1H-Xrc7tHtbm1_xj37vEXUuMgE3W_0mi0',
+      '1YcrsrFX7RkGMuiGWOLYVkiNsbUrZj5mE',
+    ]
+  },
+  {
+    id: 'bmw-320d-2019',
+    name: 'BMW 320d',
+    year: '2019',
+    mileage: '107 233 km',
+    spec: '2.0 diesel · M Sport',
+    categories: ['sedan', 'premium'],
+    photos: [
+      '1NHrLNjac2unh5nfcmgk6BHqbw9YUBdPL',
+      '1zyOXKB8AXFFYq6KSD-iSt0WURCUoYRmy',
+      '1y6pC08Lv780Y_ujriobQOjG25fct-02K',
+      '1swjFoBj2oxVPURX1PjApHZelRwTFboSa',
+      '1i4lyX3pNSxw20RVH7B24Loe4agvK2m3h',
+      '1cz40AeZZeIWUuXqsIpjTV-sKYljfL9Ku',
+      '1pCyV2561BaYCXhGMutft1b82woTZVLdz',
+      '1JU-ZBPwX1Qp9MNz0F9AEi_daotEj5ULf',
+      '1jSYFuayvXx3sDf2e_UIcgi9-00NCkvt-',
+      '1mNOt4zwThLW0_iZX0iuiwYG3F9emPatm',
+      '1GsMmmvnqVV6HcuHKMP_vUsbrs059Y8mE',
+    ]
+  },
+  {
+    id: 'bmw-x6-2017',
+    name: 'BMW X6',
+    year: '2017',
+    mileage: '122 067 km',
+    spec: '3.0 diesel · xDrive30d',
+    categories: ['suv', 'premium'],
+    photos: [
+      '14CUsxaDQe1WV4LjcEqjNz9ijBZgaE4rW',
+      '104ABQjcsYULBby2JA1dIJatg09T4d_pM',
+      '1FMsiiHHmkpj484BukNsTJnOgRl6Of4vO',
+      '1rQ8LzjTtv09p7Porm3GQI9t3ygNNlQiV',
+      '1te64UeHfhYWSi2w6QLU0hmPlVlrjEsBZ',
+      '16EkpcHQDEn5lBjqH74uHYUjsgtWSZDvv',
+      '1vQj9uvjYkzbdb9rcuQ25dBOo2NmG3uaT',
+      '1WyinGWnZaeVHLjRS-ypnL0790mHLfYmG',
+      '1NsrioM4JeKTtjwjtlIjDP4cav9eFTm_8',
+      '1XAu_fJCT7LhKoSGK77g-hIQcaooSyovF',
+      '11RvfQvXFObcnxPxnTw-Y6xQ99OXrHJo7',
+      '19Ji7b9TRfQlqq3rvpipVXbRm5l3gjmLz',
+      '1ryjc_fhCQm6E-xyqmY5_I_8nkaluyJQB',
+      '1ADRhg2XFHsmtSwLWA9DHjsJuEX6VDmNS',
+      '1-jWfF4DjmHVUHyYbZZhsblEf3dxAA_ed',
+    ]
+  },
+  {
+    id: 'audi-a4-2015',
+    name: 'Audi A4',
+    year: '2015',
+    mileage: '150 000 km',
+    spec: '2.0T diesel · Quattro',
+    categories: ['sedan'],
+    photos: [
+      '1aZZHVnjv5k6AEyg0lGBX841aSCY66AoJ',
+      '1sBEiuKEI_l0CdOEgk3QGpsOxH7g5dC6T',
+      '1y9TLLfCSbUlaBtBUtfLjvXfQwokbkbjt',
+      '1P6wJoTfbkEGLmVqpKny5Hr0JHKAhPWUv',
+      '1EcPR6N1bGEjCHtDOaULxOKcRXqMgy1ZH',
+      '1jiFewFAgXJhntvCDEFcssCLveN8VEdYP',
+      '1NwthPqWuu6UgH6D-dgNrfiPYHWGyanGW',
+      '1ELN1qfYjYguxrjBfYtza9mVNH27Ni82g',
+      '1PUPqkbCq0slWP6m-HhnWDdTDVzNMYNCm',
+      '1NlchEBQw-bf0A2is0sfkyB11UDlhqUZS',
+      '1zB1V_qm_t4gR3x_QeFSW61rU3CFIljOj',
+      '1U4Lh1c4yo0YtnTbr_O7zeClQ8dufNeKe',
+      '1io6Twk2tMBvdc-Cf69OebD2U5L34SuLf',
+    ]
+  },
+  {
+    id: 'mercedes-e220d-2017',
+    name: 'Mercedes-Benz E220d',
+    year: '2017',
+    mileage: '156 000 km',
+    spec: '2.0d · 4MATIC',
+    categories: ['sedan', 'premium'],
+    photos: [
+      '1StiLvxu-R8vy_3hSsot7PPNX3Dlk3KmO',
+      '12RFWar0qSE7ri5dT0kHdwME0it3MUl3b',
+      '1uDymi8KPvsP9koMFXTIIJ7UDxzpU7sZb',
+      '1B62r5svxEU-BlNXZFAkli-IAL--nQ8M3',
+      '1e8qd9tMKfUKJmKdcH-PxsjBZZQdtTJ8Y',
+      '101GfdMkM3Q09cYxcqU-txGvo7SIhFmNS',
+      '1c4nVnQSPYTqlisBm4s_hCMK1Mp1XB4QJ',
+      '1cjNN00KVjLzicx08w2VTgVxzFEvDcVfE',
+      '1IRIhgmSfIP-NsRA3W_doLZ0brFjc3a7k',
+      '14JMYghLyT5LQcl0cl3zW8wL3Um8TLpgP',
+      '1v0UKj5tv5MI0KW0xlEY0zEXxch7kB5_f',
+      '1Tzvbc7yyIgwEG6vWIT2sJSBEk1MVE3Lh',
+      '17c2jJQ_ImtUkvB6AxzWKEHkfGfvSpbII',
+    ]
+  },
+  {
+    id: 'volvo-xc40-2020',
+    name: 'Volvo XC40',
+    year: '2020',
+    mileage: '144 300 km',
+    spec: '2.0 diesel · 4WD',
+    categories: ['suv'],
+    photos: [
+      '1PJzEoZV3eMO3f5YJdYc22WrFnaF0W-8N',
+      '1lQ8YbALg2SlhZslRCHVS2aOKP7PTsE1K',
+      '1lso-FfvsbznpC_gOF7O6Aa6CxvLH1JDg',
+      '1ie9HVH9uvPSKU1H-62aOqDrcmYt6n9OA',
+      '1jSPfUfgo4hl40jVPRS6UIsSCuj3zFDtx',
+      '1XNESqIv5C3iyvmPmH61em66ExVCRlYFr',
+      '1xkaGSMzllwUKRQ-FbfFdEqGP2vaO-G49',
+      '1Nve3QMmyFlgHbuEWQQLbEsRJkgmG6RPM',
+      '11KDghDWJuGRqAxor70XPhWeg5ZDqrpna',
+      '1SPZPpdhr04MZLQj14BJxheVTN4_-1V_o',
+      '12URjGRCZ-NaTggrfyU1hhloZDUCvJ-1h',
+      '1kcU75uhBOeJW4_adxTuYTGFk3UKkbtNz',
+    ]
+  },
+  {
+    id: 'audi-a6-2016',
+    name: 'Audi A6',
+    year: '2016',
+    mileage: '123 000 km',
+    spec: '2.0 diesel · 35 TDI · Quattro',
+    categories: ['sedan'],
+    photos: [
+      '1Z0JXuZabZkx0ZWi33DbrjqkCqNHVAWX0',
+      '1Sk9XbXczeyLCkv-H12DNVIfgXLwNw-MQ',
+      '1efiSdgNHLsL4SXXBZCNxCcd6sEG6Z-sp',
+      '1ZLvLCOOXixwsgk5uoR9TDyLGIkg5p3G7',
+      '1TFT91SvEl1ImXhSFz4zQe-5fkHz-PSbc',
+      '1tNeEd4gbPJ38xnTJjF2adhbxUCh9g60l',
+      '1QkvzPvf6i53skIdf8ipXTK2-0IsHHyml',
+      '1hvOtl8vCedJ3g-UFJWHZzSnM9HOZhErC',
+      '1ny3cnTJ6puVVvs50RqLQwLuuE92Kb1R6',
+      '10T8pU0gUrACUGZ9aByCAMpoNvI4-Yao2',
+    ]
+  },
+  {
+    id: 'mercedes-c250-2016',
+    name: 'Mercedes-Benz C250',
+    year: '2016',
+    mileage: '114 000 km',
+    spec: '2.2 diesel · 4MATIC',
+    categories: ['sedan', 'premium'],
+    photos: [
+      '1bSmHdo6sAU6fKqOFM44dSe_neLa-bBKI',
+      '1B1oF-UjrfGpabTMZ6hRET_Q55pFNQEpy',
+      '1WkLCqNH1XTlzdUQSfJ02isXLG5ohadTP',
+      '1--_LjGkmrecIeV_Y0NnG8bYzGi4UKYbt',
+      '1D7BaNscj_VBYjJlvEU8cz9N2aNnWq6G6',
+      '1tVnHYknGacqmdsCOF5fGgMICv0AFuiqw',
+      '1oNijvfMH4KXd_JNWUA6As1cMuDMNZ8_j',
+      '1r_dpUkoU0j-dBTjGIUqJJHjSR0eO6H_g',
+      '1AqOL8wHrmNpCgyZ3H7ap4CaXy1OGlDPt',
+      '1QH0JYwHXasCpmSc0LUHneyZpTnQ9Cwew',
+      '1ya2H6XYzH18Pqg07eZyAGmBGT16ZvU1j',
+      '1BToACDCBQ-GfxoU3XAJSfM7PxjQBueC9',
+      '1wvH1apr9tFVh2K3qXQUGDaKe9AO0asi5',
+      '1RL65MwVWfRnki4mF3QjHbKYpaKpAnk-8',
+      '1Dtj1N2hr4jKV_DFY98yGPZ-hPIOqvHaR',
+      '1_nzkT5PlFW3_sLmsDgf82apb2eZ_wrbl',
+      '1K0IC128cMqpszxRMiap79D3tBGRy0EOp',
+      '1LnToPC3C3LAlvz0T6GajYDV_Pvc9b1Jv',
+    ]
+  },
+];
+
+/* ─────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   AOS.init({ duration: 850, easing: 'ease-out-cubic', once: true, offset: 70 });
   initNav();
   initParallax();
   initCounters();
-  initFilter();
+  renderCatalog();
   initForm();
   initMobile();
   initParticles();
   initLang();
+  initLightbox();
 });
 
 /* ── NAV SCROLL ── */
@@ -22,12 +267,10 @@ function initNav() {
 function initParallax() {
   if (window.innerWidth <= 768) return;
   const hero = document.querySelector('.hero');
-  const cnt  = document.querySelector('.hero-content');
   window.addEventListener('scroll', () => {
     const s = window.scrollY;
     if (s < window.innerHeight * 1.4) {
       hero.style.backgroundPositionY = `calc(50% + ${s * 0.38}px)`;
-      if (cnt) cnt.style.transform = `translateY(${s * 0.13}px)`;
     }
   }, { passive: true });
 }
@@ -49,9 +292,7 @@ function initCounters() {
 
 function formatNum(n) {
   if (n >= 1000) {
-    const thousands = Math.floor(n / 1000);
-    const hundreds  = String(n % 1000).padStart(3, '0');
-    return thousands + ' ' + hundreds;
+    return Math.floor(n / 1000) + ' ' + String(n % 1000).padStart(3, '0');
   }
   return String(n);
 }
@@ -68,6 +309,50 @@ function counter(el, target, sfx, dur = 2200) {
   })(performance.now());
 }
 
+/* ── CATALOG RENDER ── */
+function renderCatalog() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+  CARS.forEach((car, idx) => {
+    const cats = car.categories.join(' ');
+    const catLabel = car.categories.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(' · ');
+    const delay = (idx % 3) * 80;
+    const thumb = gd(car.photos[0], 'w800');
+
+    const card = document.createElement('div');
+    card.className = 'car';
+    card.dataset.cat = cats;
+    card.dataset.carId = car.id;
+    card.setAttribute('data-aos', 'fade-up');
+    card.setAttribute('data-aos-delay', String(delay));
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => openLightbox(car.id));
+
+    card.innerHTML = `
+      <div class="car-img">
+        <img src="${thumb}" alt="${car.name} ${car.year}" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="car-img-fb" style="display:none">${car.name.toUpperCase()}</div>
+        <span class="badge">${car.year}</span>
+        <span class="cat-tag">${catLabel}</span>
+        <div class="car-overlay">
+          <span data-i18n="car.overlay">Смотреть фото</span>
+        </div>
+      </div>
+      <div class="car-body">
+        <h3 class="car-name">${car.name}</h3>
+        <p class="car-spec">${car.year} · ${car.mileage} · ${car.spec}</p>
+        <a href="#contact" class="btn btn-gold" style="font-size:.72rem;padding:10px 20px"
+           onclick="event.stopPropagation()" data-i18n="cat.btn">→ Написать нам</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  initFilter();
+  if (typeof setLang === 'function') setLang(localStorage.getItem('lang') || 'ru');
+}
+
 /* ── CATALOG FILTER ── */
 function initFilter() {
   const btns = document.querySelectorAll('.flt');
@@ -80,8 +365,7 @@ function initFilter() {
       const f = btn.dataset.f;
       let i = 0;
       document.querySelectorAll('.car').forEach(c => {
-        const cats = (c.dataset.cat || '').split(' ');
-        const show = f === 'all' || cats.includes(f);
+        const show = f === 'all' || (c.dataset.cat || '').split(' ').includes(f);
         if (show) {
           c.style.display = '';
           c.style.animation = 'none';
@@ -98,6 +382,85 @@ function initFilter() {
 /* ── SERVICE ACCORDION ── */
 function toggleSrv(el) {
   el.classList.toggle('open');
+}
+
+/* ─────────────────────────────────────────────
+   LIGHTBOX
+───────────────────────────────────────────── */
+let lbCar = null;
+let lbIdx = 0;
+let lbTouchX = 0;
+
+function initLightbox() {
+  const lb = document.getElementById('lightbox');
+
+  lb.addEventListener('click', e => {
+    if (e.target === lb) closeLb();
+  });
+
+  lb.addEventListener('touchstart', e => {
+    lbTouchX = e.touches[0].clientX;
+  }, { passive: true });
+
+  lb.addEventListener('touchend', e => {
+    const diff = lbTouchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) lbNav(diff > 0 ? 1 : -1);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'Escape')     closeLb();
+  });
+}
+
+function openLightbox(carId) {
+  lbCar = CARS.find(c => c.id === carId);
+  if (!lbCar) return;
+  lbIdx = 0;
+  lbRender();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+  lbCar = null;
+}
+
+function lbNav(dir) {
+  if (!lbCar) return;
+  lbIdx = (lbIdx + dir + lbCar.photos.length) % lbCar.photos.length;
+  lbRender();
+}
+
+function lbRender() {
+  const img = document.getElementById('lbImg');
+  img.classList.add('lb-loading');
+  img.onload = () => img.classList.remove('lb-loading');
+  img.onerror = () => img.classList.remove('lb-loading');
+  img.src = gd(lbCar.photos[lbIdx], 'w1600');
+  img.alt = lbCar.name;
+
+  document.getElementById('lbTitle').textContent = `${lbCar.name}  ·  ${lbCar.year}  ·  ${lbCar.mileage}  ·  ${lbCar.spec}`;
+  document.getElementById('lbCounter').textContent = `${lbIdx + 1} / ${lbCar.photos.length}`;
+
+  const strip = document.getElementById('lbStrip');
+  strip.innerHTML = '';
+  lbCar.photos.forEach((id, i) => {
+    const t = document.createElement('img');
+    t.className = 'lb-thumb' + (i === lbIdx ? ' active' : '');
+    t.src = gd(id, 'w200');
+    t.alt = '';
+    t.loading = 'lazy';
+    t.addEventListener('click', () => { lbIdx = i; lbRender(); });
+    strip.appendChild(t);
+  });
+
+  const active = strip.querySelector('.lb-thumb.active');
+  if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
 /* ── FORM ── */
@@ -146,16 +509,18 @@ function initParticles() {
     p.className = 'pt';
     const s = 2 + Math.random() * 4;
     p.style.cssText = `
-      left:${Math.random() * 100}%;
+      left:${Math.random()*100}%;
       width:${s}px;height:${s}px;
-      animation-duration:${9 + Math.random() * 12}s;
-      animation-delay:${Math.random() * 10}s;
+      animation-duration:${9+Math.random()*12}s;
+      animation-delay:${Math.random()*10}s;
     `;
     box.appendChild(p);
   }
 }
 
-/* ── LANGUAGE ── */
+/* ─────────────────────────────────────────────
+   LANGUAGE
+───────────────────────────────────────────── */
 const T = {
   ru: {
     'nav.about':        'О нас',
@@ -202,15 +567,15 @@ const T = {
     'srv.4.body':     'Всегда на связи по WhatsApp. Никаких скрытых платежей и сюрпризов.',
     'srv.4.details':  'Остаёмся на связи и после доставки. Вопросы по таможне, документам или техническому состоянию — пишите в WhatsApp. Каждая сделка сопровождается письменной гарантией и оригиналами всех документов о покупке.',
 
-    'cat.tag':        'Каталог',
-    'cat.h2':         'Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2026 года</em>',
-    'cat.flt.all':    'Все модели',
-    'cat.flt.sedan':  'Седаны',
-    'cat.flt.suv':    'SUV',
+    'cat.tag':          'Каталог',
+    'cat.h2':           'Автомобили<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">в наличии</em>',
+    'cat.flt.all':      'Все',
+    'cat.flt.sedan':    'Седаны',
+    'cat.flt.suv':      'SUV',
     'cat.flt.electric': 'Электро',
     'cat.flt.premium':  'Премиум',
-    'cat.price':      'Цена по запросу',
-    'cat.btn':        'Узнать цену →',
+    'cat.btn':          '→ Написать нам',
+    'car.overlay':      'Смотреть фото',
 
     'rev.tag':      'Отзывы',
     'rev.h2':       'Что говорят<br>клиенты',
@@ -245,7 +610,7 @@ const T = {
     'con.form.note':        'Нажимая кнопку, вы соглашаетесь с обработкой персональных данных',
     'con.form.name.ph':     'Иван Иванов',
     'con.form.phone.ph':    '+7 (___) ___-__-__',
-    'con.form.car.ph':      'Genesis GV80, BMW M5...',
+    'con.form.car.ph':      'BMW X5, Audi A6...',
     'con.form.msg.ph':      'Расскажите о пожеланиях...',
 
     'toast.title':    '✓ Заявка отправлена',
@@ -308,17 +673,17 @@ const T = {
     'srv.3.details':  'We work with reliable freight partners for sea and road transport. Typical transit times: Europe 25-35 days, Central Asia 15-20 days, Middle East 20-30 days. Your car is fully insured during transport. You get a tracking link and regular updates.',
     'srv.4.title':    'Support & guarantee',
     'srv.4.body':     'Always reachable on WhatsApp. No hidden fees, no surprises at the end.',
-    'srv.4.details':  'We stay with you after delivery too. Questions about customs, documents or the car\'s condition — message us on WhatsApp. Every transaction comes with a written guarantee and all original purchase documents.',
+    'srv.4.details':  "We stay with you after delivery too. Questions about customs, documents or the car's condition — message us on WhatsApp. Every transaction comes with a written guarantee and all original purchase documents.",
 
-    'cat.tag':        'Catalog',
-    'cat.h2':         'Models<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2026</em>',
-    'cat.flt.all':    'All models',
-    'cat.flt.sedan':  'Sedans',
-    'cat.flt.suv':    'SUV',
+    'cat.tag':          'Catalog',
+    'cat.h2':           'Available<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">vehicles</em>',
+    'cat.flt.all':      'All',
+    'cat.flt.sedan':    'Sedans',
+    'cat.flt.suv':      'SUV',
     'cat.flt.electric': 'Electric',
     'cat.flt.premium':  'Premium',
-    'cat.price':      'Price on request',
-    'cat.btn':        'Get price →',
+    'cat.btn':          '→ Inquire',
+    'car.overlay':      'View photos',
 
     'rev.tag':      'Reviews',
     'rev.h2':       'What our<br>clients say',
@@ -353,7 +718,7 @@ const T = {
     'con.form.note':        'By clicking, you agree to the processing of personal data',
     'con.form.name.ph':     'John Smith',
     'con.form.phone.ph':    '+49 (___) ___-____',
-    'con.form.car.ph':      'Genesis GV80, BMW M5...',
+    'con.form.car.ph':      'BMW X5, Audi A6...',
     'con.form.msg.ph':      'Tell us what you are looking for...',
 
     'toast.title':    '✓ Request sent',
