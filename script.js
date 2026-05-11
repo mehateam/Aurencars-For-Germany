@@ -18,7 +18,7 @@ function initNav() {
   }, { passive: true });
 }
 
-/* ── PARALLAX (hero bg + text only) ── */
+/* ── PARALLAX ── */
 function initParallax() {
   if (window.innerWidth <= 768) return;
   const hero = document.querySelector('.hero');
@@ -51,7 +51,7 @@ function formatNum(n) {
   if (n >= 1000) {
     const thousands = Math.floor(n / 1000);
     const hundreds  = String(n % 1000).padStart(3, '0');
-    return thousands + ' ' + hundreds;
+    return thousands + ' ' + hundreds;
   }
   return String(n);
 }
@@ -93,6 +93,11 @@ function initFilter() {
       });
     });
   });
+}
+
+/* ── SERVICE ACCORDION ── */
+function toggleSrv(el) {
+  el.classList.toggle('open');
 }
 
 /* ── FORM ── */
@@ -165,7 +170,7 @@ const T = {
     'hero.h1':            'Ваш<br>идеальный<br><em>автомобиль</em>',
     'hero.sub':           'Подбираем и доставляем машины из Кореи в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию.',
     'hero.btn1':          '→ Подобрать автомобиль',
-    'hero.btn2':          'Каталог 2025',
+    'hero.btn2':          'Каталог 2026',
     'hero.num1.label':    'Лет опыта',
     'hero.num2.label':    'Авто экспортировано',
     'hero.num3.label':    'Стран',
@@ -186,15 +191,19 @@ const T = {
     'srv.editorial':  'Берём на себя всё — вам только принять машину',
     'srv.1.title':    'Подбор автомобиля',
     'srv.1.body':     'Смотрим корейский рынок и находим нужную машину — по марке, комплектации, цвету и бюджету.',
+    'srv.1.details':  'Рассказываете о своих пожеланиях — марка, бюджет, пробег, цвет. Мы ищем по всему корейскому рынку: официальные дилеры, аукционы, частные продавцы. Присылаем подборку с фото, полным отчётом о состоянии и разбивкой цены — до того, как вы примете решение.',
     'srv.2.title':    'Оформление и выкуп',
     'srv.2.body':     'Выкупаем у официальных дилеров по договору. Полное юридическое сопровождение.',
+    'srv.2.details':  'После вашего согласия выкупаем автомобиль у официального дилера по письменному договору. Готовим все документы под требования страны назначения. Копии каждого документа отправляем вам на каждом этапе - никаких пробелов в информации.',
     'srv.3.title':    'Международная доставка',
     'srv.3.body':     'Доставляем в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию. Морской и автомобильный транспорт.',
+    'srv.3.details':  'Работаем с проверенными партнёрами по морскому и автомобильному фрахту. Примерные сроки: Европа — 25-35 дней, Центральная Азия — 15-20 дней, Ближний Восток — 20-30 дней. Автомобиль застрахован на весь период перевозки. Вы получаете ссылку для отслеживания и регулярные обновления.',
     'srv.4.title':    'Гарантия и поддержка',
     'srv.4.body':     'Всегда на связи по WhatsApp. Никаких скрытых платежей и сюрпризов.',
+    'srv.4.details':  'Остаёмся на связи и после доставки. Вопросы по таможне, документам или техническому состоянию — пишите в WhatsApp. Каждая сделка сопровождается письменной гарантией и оригиналами всех документов о покупке.',
 
     'cat.tag':        'Каталог',
-    'cat.h2':         'Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2025 года</em>',
+    'cat.h2':         'Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2026 года</em>',
     'cat.flt.all':    'Все модели',
     'cat.flt.sedan':  'Седаны',
     'cat.flt.suv':    'SUV',
@@ -214,14 +223,20 @@ const T = {
     'rev.3.city':   '🇩🇪 Гамбург, Германия',
     'rev.4.text':   '«Второй раз в AurenCars. BMW M5 оформили быстро, всё по договору. Лучший вариант для импорта.»',
     'rev.4.city':   '🇷🇺 Санкт-Петербург',
+    'rev.5.text':   '«Несколько недель искал Genesis G80. Ребята помогли сузить выбор и доставили в Роттердам в идеальном состоянии.»',
+    'rev.5.name':   'Ларс В.',
+    'rev.5.city':   '🇳🇱 Роттердам, Нидерланды',
+    'rev.6.text':   '«Заказывал Kia Carnival для семьи. Хорошая связь, адекватные сроки, машина пришла именно такой, как описывали.»',
+    'rev.6.name':   'Ахмед К.',
+    'rev.6.city':   '🇦🇪 Дубай, ОАЭ',
 
     'con.tag':              'Контакты',
     'con.h2':               'Оставьте заявку',
     'con.editorial':        'Ответим в течение часа',
     'con.hours.label':      'Режим работы',
-    'con.hours.val':        'Пн–Сб 9:00–21:00 (Seoul)',
+    'con.hours.val':        'Пн-Сб 9:00-21:00 (KST)',
     'con.loc.label':        'Расположение',
-    'con.loc.val':          'Южная Корея, Сеул',
+    'con.loc.val':          'Yeonsu-gu, Central-ro 313, Incheon',
     'con.form.name':        'Ваше имя *',
     'con.form.phone':       'Телефон *',
     'con.form.car':         'Желаемый автомобиль',
@@ -240,13 +255,13 @@ const T = {
     'foot.nav.h':         'Навигация',
     'foot.nav.about':     'О компании',
     'foot.nav.services':  'Услуги',
-    'foot.nav.catalog':   'Каталог 2025',
+    'foot.nav.catalog':   'Каталог 2026',
     'foot.nav.reviews':   'Отзывы',
     'foot.nav.contact':   'Контакты',
     'foot.con.h':         'Контакты',
-    'foot.loc':           'Южная Корея, Сеул',
-    'foot.hours':         'Пн–Сб 9:00–21:00 KST',
-    'foot.copy':          '© 2014–2025 AurenCars. Все права защищены.',
+    'foot.loc':           'Yeonsu-gu, Central-ro 313, Incheon',
+    'foot.hours':         'Пн-Сб 9:00-21:00 KST',
+    'foot.copy':          '© 2014-2025 AurenCars. Все права защищены.',
     'foot.privacy':       'Политика конфиденциальности',
   },
 
@@ -263,7 +278,7 @@ const T = {
     'hero.h1':            'Your<br>perfect<br><em>car</em>',
     'hero.sub':           'We source and ship cars from Korea to Germany, Netherlands, Spain, Kazakhstan, UAE, Saudi Arabia, Kyrgyzstan and Albania.',
     'hero.btn1':          '→ Find my car',
-    'hero.btn2':          'Catalog 2025',
+    'hero.btn2':          'Catalog 2026',
     'hero.num1.label':    'Years in business',
     'hero.num2.label':    'Vehicles exported',
     'hero.num3.label':    'Countries',
@@ -284,15 +299,19 @@ const T = {
     'srv.editorial':  'We handle everything — you just pick up the car',
     'srv.1.title':    'Car selection',
     'srv.1.body':     'We scan the Korean market and find the right car — by make, trim, colour and budget.',
+    'srv.1.details':  'Tell us what you want — make, budget, mileage, colour. We search the full Korean market: official dealers, auctions, private sellers. We send you a shortlist with photos, a full condition report and a price breakdown before you make any decision.',
     'srv.2.title':    'Purchase & paperwork',
     'srv.2.body':     'We buy from official dealers under contract. Full legal support included.',
+    'srv.2.details':  'After your approval we purchase the car from an official dealer under a written contract. We prepare all documents to the requirements of your destination country. You receive copies of every document at each stage - no gaps in information.',
     'srv.3.title':    'International shipping',
     'srv.3.body':     'We ship to Germany, Netherlands, Spain, Kazakhstan, UAE, Saudi Arabia, Kyrgyzstan and Albania. Sea and road freight.',
+    'srv.3.details':  'We work with reliable freight partners for sea and road transport. Typical transit times: Europe 25-35 days, Central Asia 15-20 days, Middle East 20-30 days. Your car is fully insured during transport. You get a tracking link and regular updates.',
     'srv.4.title':    'Support & guarantee',
     'srv.4.body':     'Always reachable on WhatsApp. No hidden fees, no surprises at the end.',
+    'srv.4.details':  'We stay with you after delivery too. Questions about customs, documents or the car\'s condition — message us on WhatsApp. Every transaction comes with a written guarantee and all original purchase documents.',
 
     'cat.tag':        'Catalog',
-    'cat.h2':         'Models<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2025</em>',
+    'cat.h2':         'Models<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2026</em>',
     'cat.flt.all':    'All models',
     'cat.flt.sedan':  'Sedans',
     'cat.flt.suv':    'SUV',
@@ -303,7 +322,7 @@ const T = {
 
     'rev.tag':      'Reviews',
     'rev.h2':       'What our<br>clients say',
-    'rev.1.text':   '"Ordered a Genesis GV80 — no fuss at all. The manager was always available and the car arrived ahead of schedule."',
+    'rev.1.text':   '"Ordered a Genesis GV80 - no fuss at all. The manager was always available and the car arrived ahead of schedule."',
     'rev.1.city':   '🇷🇺 Moscow, Russia',
     'rev.2.text':   '"I\'d wanted a Kia EV9 for ages. They helped me choose, handled all the paperwork and got it delivered without a hitch."',
     'rev.2.city':   '🇰🇿 Almaty, Kazakhstan',
@@ -312,14 +331,20 @@ const T = {
     'rev.3.city':   '🇩🇪 Hamburg, Germany',
     'rev.4.text':   '"Second time with AurenCars. The BMW M5 was sorted fast, everything by the contract. Best option for imports."',
     'rev.4.city':   '🇷🇺 Saint Petersburg',
+    'rev.5.text':   '"Spent weeks looking for a Genesis G80. The team helped me narrow it down and got it shipped to Rotterdam in perfect condition."',
+    'rev.5.name':   'Lars V.',
+    'rev.5.city':   '🇳🇱 Rotterdam, Netherlands',
+    'rev.6.text':   '"Ordered a Kia Carnival for the family. Good communication, reasonable timeline, car arrived exactly as described."',
+    'rev.6.name':   'Ahmed K.',
+    'rev.6.city':   '🇦🇪 Dubai, UAE',
 
     'con.tag':              'Contact',
     'con.h2':               'Get in touch',
     'con.editorial':        "We'll reply within an hour",
     'con.hours.label':      'Working hours',
-    'con.hours.val':        'Mon–Sat 9:00–21:00 (Seoul)',
+    'con.hours.val':        'Mon-Sat 9:00-21:00 (KST)',
     'con.loc.label':        'Location',
-    'con.loc.val':          'South Korea, Seoul',
+    'con.loc.val':          'Yeonsu-gu, Central-ro 313, Incheon',
     'con.form.name':        'Your name *',
     'con.form.phone':       'Phone *',
     'con.form.car':         'Desired car',
@@ -338,13 +363,13 @@ const T = {
     'foot.nav.h':         'Navigation',
     'foot.nav.about':     'About',
     'foot.nav.services':  'Services',
-    'foot.nav.catalog':   'Catalog 2025',
+    'foot.nav.catalog':   'Catalog 2026',
     'foot.nav.reviews':   'Reviews',
     'foot.nav.contact':   'Contact',
     'foot.con.h':         'Contact',
-    'foot.loc':           'South Korea, Seoul',
-    'foot.hours':         'Mon–Sat 9:00–21:00 KST',
-    'foot.copy':          '© 2014–2025 AurenCars. All rights reserved.',
+    'foot.loc':           'Yeonsu-gu, Central-ro 313, Incheon',
+    'foot.hours':         'Mon-Sat 9:00-21:00 KST',
+    'foot.copy':          '© 2014-2025 AurenCars. All rights reserved.',
     'foot.privacy':       'Privacy Policy',
   }
 };
