@@ -242,6 +242,24 @@ const CARS = [
 /* ─────────────────────────────────────────────
    INIT
 ───────────────────────────────────────────── */
+/* ── PRELOADER: runs immediately, zero dependencies ── */
+(function () {
+  var pr = document.getElementById('preloader');
+  var bar = document.getElementById('preloader-bar');
+  if (!pr) return;
+  // animate bar to 100% over 1.2s
+  if (bar) { bar.style.transition = 'width 1.2s ease'; bar.style.width = '100%'; }
+  // hide preloader after 1.5s using only CSS transition
+  setTimeout(function () {
+    pr.style.transition = 'opacity 0.55s ease, visibility 0.55s ease';
+    pr.style.opacity = '0';
+    pr.style.visibility = 'hidden';
+    setTimeout(function () {
+      pr.classList.add('hidden');
+    }, 600);
+  }, 1500);
+}());
+
 document.addEventListener('DOMContentLoaded', () => {
   initLenis();
   initGSAP();
@@ -252,7 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobile();
   initLang();
   initLightbox();
-  initPreloader();
+  // hero entrance fires ~2s after page load (after preloader fades out)
+  setTimeout(animateHeroIn, 2100);
 });
 
 /* ── LENIS smooth scroll ── */
@@ -334,40 +353,6 @@ function initGSAP() {
   }
 }
 
-/* ── PRELOADER ── */
-function initPreloader() {
-  const preloader = document.getElementById('preloader');
-  const bar       = document.getElementById('preloader-bar');
-  if (!preloader) return;
-
-  function hidePreloader() {
-    if (preloader.classList.contains('hidden')) return;
-    if (bar) bar.style.width = '100%';
-    if (typeof gsap !== 'undefined') {
-      gsap.to(preloader, {
-        opacity: 0,
-        duration: 0.55,
-        ease: 'power2.out',
-        onComplete: () => {
-          preloader.classList.add('hidden');
-          animateHeroIn();
-        }
-      });
-    } else {
-      preloader.classList.add('hidden');
-      animateHeroIn();
-    }
-  }
-
-  // Animate progress bar to 100% quickly (visual feedback), then hide
-  if (bar) {
-    gsap ? gsap.to(bar, { width: '100%', duration: 1.2, ease: 'power1.inOut' })
-         : (bar.style.width = '100%');
-  }
-
-  // Hide after 1.5s — 3D model loads silently in background after site is visible
-  setTimeout(hidePreloader, 1500);
-}
 
 /* ── HERO ENTRANCE ── */
 function animateHeroIn() {
