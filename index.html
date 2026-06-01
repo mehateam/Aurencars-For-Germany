@@ -8,13 +8,13 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <script type="importmap">
   {
     "imports": {
-      "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+      "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
     }
   }
   </script>
@@ -36,9 +36,9 @@
       --muted:   #6B6860;
       --border:  rgba(196,146,42,.12);
       --borderH: rgba(196,146,42,.5);
-      --fd: 'Space Grotesk', sans-serif;
-      --fe: 'Bodoni Moda', Georgia, serif;
-      --fb: 'Jost', sans-serif;
+      --fd: 'Inter', sans-serif;
+      --fe: 'Inter', sans-serif;
+      --fb: 'Inter', sans-serif;
       --nav: 72px;
       --mw: 1300px;
     }
@@ -119,6 +119,7 @@
       font-family: var(--fe);
       font-style: italic;
       font-weight: 300;
+      letter-spacing: .01em;
       color: var(--muted);
       line-height: 1.5;
     }
@@ -1280,18 +1281,15 @@
     .nav-blur {
       position: absolute;
       inset: 0;
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
       pointer-events: none;
       z-index: -1;
-    }
-    .nav-blur > div {
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       opacity: 0;
-      transition: opacity .5s ease;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(8,8,14,0.85);
+      transition: opacity .4s ease;
     }
-    .nav.on .nav-blur > div { opacity: 1; }
+    .nav.on .nav-blur { opacity: 1; }
 
     /* ═══════════════════════════════════════════════
        SCROLL INDICATOR (ref. style — chevron)
@@ -1414,10 +1412,7 @@
 
 <!-- ══════════════ NAVBAR ══════════════ -->
 <nav class="nav" id="nav">
-  <div class="nav-blur" aria-hidden="true">
-    <div></div><div></div><div></div><div></div>
-    <div></div><div></div><div></div><div></div>
-  </div>
+  <div class="nav-blur" aria-hidden="true"></div>
   <div class="wrap nav-inner">
     <a href="#home" class="logo">
       <span class="logo-a">Auren</span><span class="logo-b">Cars</span>
@@ -1901,7 +1896,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="script.js"></script>
 <script type="module" src="three-scene.js"></script>
 </body>
