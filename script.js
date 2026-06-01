@@ -670,7 +670,7 @@ function initMobile() {
 /* ─────────────────────────────────────────────
    LANGUAGE
 ───────────────────────────────────────────── */
-const T = {
+const AURENCARS_T = {
   ru: {
     'nav.about':        'О нас',
     'nav.services':     'Услуги',
@@ -901,7 +901,7 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
-  const dict = T[lang] || T.ru;
+  const dict = AURENCARS_T[lang] || AURENCARS_T.ru;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
     if (dict[key] !== undefined) el.textContent = dict[key];
