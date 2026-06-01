@@ -340,39 +340,33 @@ function initPreloader() {
   const bar       = document.getElementById('preloader-bar');
   if (!preloader) return;
 
-  // Update progress bar when three-scene fires model-progress event
-  document.addEventListener('model-progress', (e) => {
-    if (bar) bar.style.width = `${Math.round(e.detail.pct * 100)}%`;
-  });
-
-  // Hide preloader when model is loaded (or mobile/no-WebGL fallback fires immediately)
-  document.addEventListener('model-loaded', () => {
+  function hidePreloader() {
+    if (preloader.classList.contains('hidden')) return;
     if (bar) bar.style.width = '100%';
-    setTimeout(() => {
-      if (typeof gsap !== 'undefined') {
-        gsap.to(preloader, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.out',
-          onComplete: () => {
-            preloader.classList.add('hidden');
-            animateHeroIn();
-          }
-        });
-      } else {
-        preloader.classList.add('hidden');
-        animateHeroIn();
-      }
-    }, 300);
-  });
-
-  // Safety timeout — hide preloader after 8s regardless
-  setTimeout(() => {
-    if (!preloader.classList.contains('hidden')) {
+    if (typeof gsap !== 'undefined') {
+      gsap.to(preloader, {
+        opacity: 0,
+        duration: 0.55,
+        ease: 'power2.out',
+        onComplete: () => {
+          preloader.classList.add('hidden');
+          animateHeroIn();
+        }
+      });
+    } else {
       preloader.classList.add('hidden');
       animateHeroIn();
     }
-  }, 8000);
+  }
+
+  // Animate progress bar to 100% quickly (visual feedback), then hide
+  if (bar) {
+    gsap ? gsap.to(bar, { width: '100%', duration: 1.2, ease: 'power1.inOut' })
+         : (bar.style.width = '100%');
+  }
+
+  // Hide after 1.5s — 3D model loads silently in background after site is visible
+  setTimeout(hidePreloader, 1500);
 }
 
 /* ── HERO ENTRANCE ── */

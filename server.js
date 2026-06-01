@@ -12,6 +12,8 @@ const MIME = {
   '.jpg':  'image/jpeg',
   '.svg':  'image/svg+xml',
   '.ico':  'image/x-icon',
+  '.glb':  'model/gltf-binary',
+  '.gltf': 'model/gltf+json',
 };
 
 http.createServer((req, res) => {
