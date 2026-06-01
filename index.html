@@ -8,8 +8,16 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+    }
+  }
+  </script>
 
   <style>
     /* ═══════════════════════════════════════════════
@@ -28,9 +36,9 @@
       --muted:   #6B6860;
       --border:  rgba(196,146,42,.12);
       --borderH: rgba(196,146,42,.5);
-      --fd: 'Syne', sans-serif;
-      --fe: 'Cormorant Garamond', Georgia, serif;
-      --fb: 'DM Sans', sans-serif;
+      --fd: 'Space Grotesk', sans-serif;
+      --fe: 'Bodoni Moda', Georgia, serif;
+      --fb: 'Jost', sans-serif;
       --nav: 72px;
       --mw: 1300px;
     }
@@ -319,27 +327,20 @@
       display: flex;
       align-items: center;
       overflow: hidden;
-      background: var(--bg);
+      background: transparent;
+      z-index: 1;
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(to right, rgba(8,8,14,.98) 35%, rgba(8,8,14,.6) 65%, rgba(8,8,14,.85) 100%),
-        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80');
-      background-size: cover;
-      background-position: center;
-    }
+    .hero-bg { display: none; }
 
     .hero::after {
       content: '';
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 100px;
-      background: var(--s1);
-      clip-path: polygon(0 100%, 100% 20%, 100% 100%);
-      z-index: 1;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, rgba(8,8,14,0.88));
+      z-index: 0;
+      pointer-events: none;
     }
 
     .hero-sweep {
@@ -472,9 +473,13 @@
     .sec {
       padding: 120px 0;
       position: relative;
+      z-index: 1;
+      background: rgba(8,8,14,0.88);
     }
-    .sec--s1 { background: var(--s1); }
-    .sec--s2 { background: var(--s2); }
+    .sec--s1 { background: rgba(8,8,14,0.82); }
+    .sec--s2 { background: rgba(23,23,31,0.88); }
+    #catalog  { background: rgba(8,8,14,0.97) !important; }
+    .footer   { background: rgba(16,16,24,0.95) !important; position: relative; z-index: 1; }
 
     .sec-header {
       position: relative;
@@ -1013,9 +1018,6 @@
       .con-grid { grid-template-columns: 1fr; gap: 56px; }
       .foot-top { grid-template-columns: 1fr 1fr; }
       .hero-bg {
-        background-image:
-          linear-gradient(rgba(8,8,14,.92), rgba(8,8,14,.92)),
-          url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80');
       }
       .cat-grid { grid-template-columns: 1fr 1fr; }
       .car:first-child { grid-row: auto; }
@@ -1196,15 +1198,227 @@
       .lb-thumb { width: 52px; height: 38px; }
       .lb-title { font-size: .7rem; }
     }
+
+    /* ═══════════════════════════════════════════════
+       THREE.JS CANVAS
+    ═══════════════════════════════════════════════ */
+    #three-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    body.no-3d #three-canvas { display: none; }
+    body.no-3d {
+      background: linear-gradient(160deg, #0d0d1a 0%, #08080E 60%, #100805 100%);
+    }
+    body.no-3d .sec     { background: var(--s1) !important; }
+    body.no-3d .sec--s1 { background: var(--s1) !important; }
+    body.no-3d #catalog { background: var(--s1) !important; }
+    body.no-3d .footer  { background: var(--s1) !important; }
+    body.no-3d .hero    { background: var(--bg) !important; }
+
+    /* ═══════════════════════════════════════════════
+       PRELOADER
+    ═══════════════════════════════════════════════ */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: #08080E;
+      z-index: 9997;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 32px;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    .preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .preloader-logo {
+      font-family: var(--fd);
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: var(--text);
+      animation: preloaderFadeIn .8s ease forwards;
+    }
+    .preloader-logo span { color: var(--gold); }
+    @keyframes preloaderFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .preloader-progress {
+      width: 180px;
+      height: 1px;
+      background: rgba(196,146,42,.15);
+      position: relative;
+      overflow: hidden;
+    }
+    #preloader-bar {
+      position: absolute;
+      left: 0; top: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width .3s ease;
+    }
+    .preloader-hint {
+      font-size: .62rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ═══════════════════════════════════════════════
+       NAV BLUR GRID (ref. style)
+    ═══════════════════════════════════════════════ */
+    .nav-blur {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .nav-blur > div {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      opacity: 0;
+      transition: opacity .5s ease;
+    }
+    .nav.on .nav-blur > div { opacity: 1; }
+
+    /* ═══════════════════════════════════════════════
+       SCROLL INDICATOR (ref. style — chevron)
+    ═══════════════════════════════════════════════ */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .scroll-indicator svg {
+      width: 24px; height: 24px;
+      stroke: var(--gold);
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); opacity: .5; }
+      50%       { transform: translateY(8px); opacity: 1; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       HERO WORD-SPLIT ANIMATION
+    ═══════════════════════════════════════════════ */
+    .hero-h1 .word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+    }
+    .hero-h1 .word-inner {
+      display: inline-block;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FULLSCREEN MOBILE MENU (ref. style)
+    ═══════════════════════════════════════════════ */
+    .mob-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,8,14,0.98);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 40px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+    .mob-overlay.on {
+      opacity: 1;
+      visibility: visible;
+    }
+    .mob-overlay a {
+      font-family: var(--fd);
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: var(--text);
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: color .25s ease, transform .5s ease, opacity .5s ease;
+      cursor: pointer;
+    }
+    .mob-overlay.on a {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mob-overlay.on a:nth-child(1) { transition-delay: .05s; }
+    .mob-overlay.on a:nth-child(2) { transition-delay: .10s; }
+    .mob-overlay.on a:nth-child(3) { transition-delay: .15s; }
+    .mob-overlay.on a:nth-child(4) { transition-delay: .20s; }
+    .mob-overlay.on a:nth-child(5) { transition-delay: .25s; }
+    .mob-overlay a:hover { color: var(--gold); }
+    .mob-overlay .mob-lang { padding: 20px 0 0; border-bottom: none; }
+    .mob-overlay .btn { margin-top: 24px; opacity: 0; transform: translateY(20px); transition-delay: .30s; }
+    .mob-overlay.on .btn { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════
+       GSAP ENTRANCE BASE STATE
+    ═══════════════════════════════════════════════ */
+    [data-gsap="fade-up"] {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+
+    /* ═══════════════════════════════════════════════
+       REDUCED MOTION
+    ═══════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+      [data-gsap="fade-up"] { opacity: 1 !important; transform: none !important; }
+      .hero-h1 .word-inner { transform: none !important; opacity: 1 !important; }
+    }
   </style>
 </head>
 <body>
+
+<!-- Three.js canvas background -->
+<canvas id="three-canvas" aria-hidden="true"></canvas>
+
+<!-- Preloader -->
+<div id="preloader" class="preloader">
+  <div class="preloader-logo">Auren<span>Cars</span></div>
+  <div class="preloader-progress"><div id="preloader-bar"></div></div>
+  <div class="preloader-hint">Loading 3D model…</div>
+</div>
 
 <!-- Film grain -->
 <div class="grain" aria-hidden="true"></div>
 
 <!-- ══════════════ NAVBAR ══════════════ -->
 <nav class="nav" id="nav">
+  <div class="nav-blur" aria-hidden="true">
+    <div></div><div></div><div></div><div></div>
+    <div></div><div></div><div></div><div></div>
+  </div>
   <div class="wrap nav-inner">
     <a href="#home" class="logo">
       <span class="logo-a">Auren</span><span class="logo-b">Cars</span>
@@ -1225,43 +1439,43 @@
       <span></span><span></span><span></span>
     </button>
   </div>
-  <div class="mob" id="mob">
-    <a href="#about" data-i18n="nav.about">О нас</a>
-    <a href="#services" data-i18n="nav.services">Услуги</a>
-    <a href="#catalog" data-i18n="nav.catalog">Каталог</a>
-    <a href="#reviews" data-i18n="nav.reviews">Отзывы</a>
-    <a href="#contact" data-i18n="nav.contact">Контакты</a>
-    <div class="mob-lang">
-      <button class="lang-btn" data-lang="ru">RU</button>
-      <button class="lang-btn" data-lang="en">EN</button>
-    </div>
-    <a href="#contact" class="btn btn-gold" data-i18n="nav.mob.cta">Получить консультацию</a>
-  </div>
 </nav>
+
+<!-- Fullscreen mobile overlay (ref. style) -->
+<div class="mob-overlay" id="mob">
+  <a href="#about" data-i18n="nav.about">О нас</a>
+  <a href="#services" data-i18n="nav.services">Услуги</a>
+  <a href="#catalog" data-i18n="nav.catalog">Каталог</a>
+  <a href="#reviews" data-i18n="nav.reviews">Отзывы</a>
+  <a href="#contact" data-i18n="nav.contact">Контакты</a>
+  <div class="mob-lang">
+    <button class="lang-btn" data-lang="ru">RU</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+  <a href="#contact" class="btn btn-gold" data-i18n="nav.mob.cta">Получить консультацию</a>
+</div>
 
 <!-- ══════════════ HERO ══════════════ -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
   <div class="hero-sweep" aria-hidden="true"></div>
-  <div class="particles" id="pts"></div>
 
   <div class="wrap" style="width:100%;position:relative;z-index:2;">
     <div class="hero-inner">
       <div class="hero-left">
-        <p class="tag hero-pre" data-aos="fade-up" data-aos-delay="200" data-i18n="hero.tag">Автомобили из Южной Кореи</p>
-        <h1 class="hero-h1 display" data-aos="fade-up" data-aos-delay="350" data-i18n-html="hero.h1">
+        <p class="tag hero-pre" data-i18n="hero.tag">Автомобили из Южной Кореи</p>
+        <h1 class="hero-h1 display" id="heroH1" data-i18n-html="hero.h1">
           Ваш<br>идеальный<br>
           <em>автомобиль</em>
         </h1>
-        <span class="rule" data-aos="fade-right" data-aos-delay="500"></span>
-        <p class="hero-sub" data-aos="fade-up" data-aos-delay="550" data-i18n="hero.sub">
+        <span class="rule"></span>
+        <p class="hero-sub" data-gsap="fade-up" data-i18n="hero.sub">
           Подбираем и доставляем машины из Кореи в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию.
         </p>
-        <div class="hero-actions" data-aos="fade-up" data-aos-delay="650">
+        <div class="hero-actions" data-gsap="fade-up">
           <a href="#contact" class="btn btn-gold" data-i18n="hero.btn1">→ Подобрать автомобиль</a>
-          <a href="#catalog" class="btn btn-outline" data-i18n="hero.btn2">Каталог 2025</a>
+          <a href="#catalog" class="btn btn-outline" data-i18n="hero.btn2">Каталог 2026</a>
         </div>
-        <div class="hero-nums" data-aos="fade-up" data-aos-delay="750">
+        <div class="hero-nums" data-gsap="fade-up">
           <div>
             <span class="hero-num-n">11</span>
             <p class="hero-num-l" data-i18n="hero.num1.label">Лет опыта</p>
@@ -1279,9 +1493,11 @@
     </div>
   </div>
 
-  <div class="hero-scroll" aria-hidden="true">
-    <span class="hero-scroll-txt" data-i18n="hero.scroll">Скролл</span>
-    <div class="hero-scroll-line"></div>
+  <!-- Animated scroll chevron (ref. style) -->
+  <div class="scroll-indicator" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6,9 12,15 18,9"></polyline>
+    </svg>
   </div>
 </section>
 
@@ -1292,22 +1508,22 @@
       <div class="about-copy">
         <div class="sec-header" style="position:relative">
           <div class="ghost-num" aria-hidden="true">01</div>
-          <p class="tag" data-aos="fade-up" data-i18n="about.tag">О компании</p>
-          <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="about.h2">
+          <p class="tag" data-gsap="fade-up" data-i18n="about.tag">О компании</p>
+          <h2 class="sec-h2 display" data-gsap="fade-up" data-i18n-html="about.h2">
             11 лет.<br>Одна цель.
           </h2>
-          <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150" data-i18n="about.editorial">
+          <p class="editorial sec-editorial" data-gsap="fade-up" data-i18n="about.editorial">
             Честно и без лишних слов — в каждой сделке
           </p>
         </div>
-        <p class="about-body" data-aos="fade-up" data-aos-delay="200" data-i18n-html="about.body1">
+        <p class="about-body" data-gsap="fade-up" data-i18n-html="about.body1">
           <strong>AurenCars</strong> работает из Кореи уже 11 лет. Напрямую с корейскими дилерами — никаких посредников.
         </p>
-        <p class="about-body" data-aos="fade-up" data-aos-delay="250" data-i18n-html="about.body2">
+        <p class="about-body" data-gsap="fade-up" data-i18n-html="about.body2">
           Доставляем в <strong>Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан</strong> и Албанию. Каждая сделка — по договору.
         </p>
       </div>
-      <div class="stats" id="stats" data-aos="fade-left" data-aos-delay="100">
+      <div class="stats" id="stats" data-gsap="fade-up">
         <div class="stat">
           <span class="stat-n" data-count="11" data-sfx="">0</span>
           <span class="stat-l" data-i18n="about.stat1.label">Лет на рынке</span>
@@ -1334,12 +1550,12 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">02</div>
-      <p class="tag" data-aos="fade-up" data-i18n="srv.tag">Услуги</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="srv.h2">От подбора<br>до ключей</h2>
-      <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150" data-i18n="srv.editorial">Берём на себя всё — вам только принять машину</p>
+      <p class="tag" data-gsap="fade-up" data-i18n="srv.tag">Услуги</p>
+      <h2 class="sec-h2 display" data-gsap="fade-up" data-i18n-html="srv.h2">От подбора<br>до ключей</h2>
+      <p class="editorial sec-editorial" data-gsap="fade-up" data-i18n="srv.editorial">Берём на себя всё — вам только принять машину</p>
     </div>
     <div class="srv-list">
-      <div class="srv" data-aos="fade-up" data-aos-delay="0" onclick="toggleSrv(this)">
+      <div class="srv" data-gsap="fade-up" onclick="toggleSrv(this)">
         <div class="srv-row">
           <span class="srv-num">01</span>
           <div class="srv-body">
@@ -1355,7 +1571,7 @@
         </div>
         <div class="srv-details" data-i18n="srv.1.details">Рассказываете о своих пожеланиях — марка, бюджет, пробег, цвет. Мы ищем по всему корейскому рынку: официальные дилеры, аукционы, частные продавцы. Присылаем подборку с фото, полным отчётом о состоянии и разбивкой цены — до того, как вы примете решение.</div>
       </div>
-      <div class="srv" data-aos="fade-up" data-aos-delay="80" onclick="toggleSrv(this)">
+      <div class="srv" data-gsap="fade-up" onclick="toggleSrv(this)">
         <div class="srv-row">
           <span class="srv-num">02</span>
           <div class="srv-body">
@@ -1373,7 +1589,7 @@
         </div>
         <div class="srv-details" data-i18n="srv.2.details">После вашего согласия выкупаем автомобиль у официального дилера по письменному договору. Готовим все документы под требования страны назначения. Копии каждого документа отправляем вам на каждом этапе — никаких пробелов в информации.</div>
       </div>
-      <div class="srv" data-aos="fade-up" data-aos-delay="160" onclick="toggleSrv(this)">
+      <div class="srv" data-gsap="fade-up" onclick="toggleSrv(this)">
         <div class="srv-row">
           <span class="srv-num">03</span>
           <div class="srv-body">
@@ -1391,7 +1607,7 @@
         </div>
         <div class="srv-details" data-i18n="srv.3.details">Работаем с проверенными партнёрами по морскому и автомобильному фрахту. Примерные сроки: Европа — 25-35 дней, Центральная Азия — 15-20 дней, Ближний Восток — 20-30 дней. Автомобиль застрахован на весь период перевозки. Вы получаете ссылку для отслеживания и регулярные обновления.</div>
       </div>
-      <div class="srv" data-aos="fade-up" data-aos-delay="240" onclick="toggleSrv(this)">
+      <div class="srv" data-gsap="fade-up" onclick="toggleSrv(this)">
         <div class="srv-row">
           <span class="srv-num">04</span>
           <div class="srv-body">
@@ -1417,10 +1633,10 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">03</div>
-      <p class="tag" data-aos="fade-up" data-i18n="cat.tag">Каталог</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="cat.h2">Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2025 года</em></h2>
+      <p class="tag" data-gsap="fade-up" data-i18n="cat.tag">Каталог</p>
+      <h2 class="sec-h2 display" data-gsap="fade-up" data-i18n-html="cat.h2">Модели<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">2025 года</em></h2>
     </div>
-    <div class="filters" data-aos="fade-up">
+    <div class="filters" data-gsap="fade-up">
       <button class="flt on" data-f="all" data-i18n="cat.flt.all">Все модели</button>
       <button class="flt" data-f="sedan" data-i18n="cat.flt.sedan">Седаны</button>
       <button class="flt" data-f="suv" data-i18n="cat.flt.suv">SUV</button>
@@ -1438,11 +1654,11 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">04</div>
-      <p class="tag" data-aos="fade-up" data-i18n="rev.tag">Отзывы</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n-html="rev.h2">Что говорят<br>клиенты</h2>
+      <p class="tag" data-gsap="fade-up" data-i18n="rev.tag">Отзывы</p>
+      <h2 class="sec-h2 display" data-gsap="fade-up" data-i18n-html="rev.h2">Что говорят<br>клиенты</h2>
     </div>
     <div class="rev-grid">
-      <div class="rev" data-aos="fade-up" data-aos-delay="0">
+      <div class="rev" data-gsap="fade-up">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
         <p class="rev-text" data-i18n="rev.1.text">«Заказывал Genesis GV80 — всё прошло без лишней суеты. Менеджер всегда на связи, машина приехала раньше срока.»</p>
@@ -1454,7 +1670,7 @@
           </div>
         </div>
       </div>
-      <div class="rev" data-aos="fade-up" data-aos-delay="100">
+      <div class="rev" data-gsap="fade-up">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
         <p class="rev-text" data-i18n="rev.2.text">«Давно хотела Kia EV9. Ребята помогли с выбором, оформили и привезли без вопросов. Спасибо.»</p>
@@ -1466,7 +1682,7 @@
           </div>
         </div>
       </div>
-      <div class="rev" data-aos="fade-up" data-aos-delay="0">
+      <div class="rev" data-gsap="fade-up">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
         <p class="rev-text" data-i18n="rev.3.text">«Брал Toyota LC300 для работы. Цена честная, сроки чёткие, привезли точно в срок. Всё как договаривались.»</p>
@@ -1478,7 +1694,7 @@
           </div>
         </div>
       </div>
-      <div class="rev" data-aos="fade-up" data-aos-delay="100">
+      <div class="rev" data-gsap="fade-up">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
         <p class="rev-text" data-i18n="rev.4.text">«Второй раз в AurenCars. BMW M5 оформили быстро, всё по договору. Лучший вариант для импорта.»</p>
@@ -1490,7 +1706,7 @@
           </div>
         </div>
       </div>
-      <div class="rev" data-aos="fade-up" data-aos-delay="0">
+      <div class="rev" data-gsap="fade-up">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
         <p class="rev-text" data-i18n="rev.5.text">«Несколько недель искал Genesis G80. Ребята помогли сузить выбор и доставили в Роттердам в идеальном состоянии.»</p>
@@ -1502,7 +1718,7 @@
           </div>
         </div>
       </div>
-      <div class="rev" data-aos="fade-up" data-aos-delay="100">
+      <div class="rev" data-gsap="fade-up">
         <div class="rev-quote">"</div>
         <div class="stars">★★★★★</div>
         <p class="rev-text" data-i18n="rev.6.text">«Заказывал Kia Carnival для семьи. Хорошая связь, адекватные сроки, машина пришла именно такой, как описывали.»</p>
@@ -1523,12 +1739,12 @@
   <div class="wrap">
     <div class="sec-header" style="position:relative">
       <div class="ghost-num" aria-hidden="true">05</div>
-      <p class="tag" data-aos="fade-up" data-i18n="con.tag">Контакты</p>
-      <h2 class="sec-h2 display" data-aos="fade-up" data-aos-delay="100" data-i18n="con.h2">Оставьте заявку</h2>
-      <p class="editorial sec-editorial" data-aos="fade-up" data-aos-delay="150" data-i18n="con.editorial">Ответим в течение часа</p>
+      <p class="tag" data-gsap="fade-up" data-i18n="con.tag">Контакты</p>
+      <h2 class="sec-h2 display" data-gsap="fade-up" data-i18n="con.h2">Оставьте заявку</h2>
+      <p class="editorial sec-editorial" data-gsap="fade-up" data-i18n="con.editorial">Ответим в течение часа</p>
     </div>
     <div class="con-grid">
-      <div data-aos="fade-right">
+      <div data-gsap="fade-up">
         <div class="cinfo-item">
           <div class="cicon">
             <svg fill="none" stroke="#C4922A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -1590,7 +1806,7 @@
         </div>
       </div>
 
-      <div data-aos="fade-left">
+      <div data-gsap="fade-up">
         <form class="cform" id="cform" novalidate>
           <div class="fg">
             <label data-i18n="con.form.name">Ваше имя *</label>
@@ -1684,7 +1900,10 @@
   <div class="toast-m" data-i18n="toast.msg">Мы свяжемся с вами в течение часа.</div>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="script.js"></script>
+<script type="module" src="three-scene.js"></script>
 </body>
 </html>

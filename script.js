@@ -243,35 +243,194 @@ const CARS = [
    INIT
 ───────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  AOS.init({ duration: 850, easing: 'ease-out-cubic', once: true, offset: 70 });
+  initLenis();
+  initGSAP();
   initNav();
-  initParallax();
   initCounters();
   renderCatalog();
   initForm();
   initMobile();
-  initParticles();
   initLang();
   initLightbox();
+  initPreloader();
 });
+
+/* ── LENIS smooth scroll ── */
+function initLenis() {
+  if (typeof Lenis === 'undefined') return;
+  const lenis = new Lenis({
+    duration: 1.4,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  window._lenis = lenis;
+}
+
+/* ── GSAP ScrollTrigger animations ── */
+function initGSAP() {
+  if (typeof gsap === 'undefined') return;
+  if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+
+  // Dispatch scroll progress to three-scene.js
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        window.dispatchEvent(new CustomEvent('aurencars-scroll', {
+          detail: { progress: self.progress }
+        }));
+      }
+    });
+  }
+
+  // Section entrance animations
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced && typeof ScrollTrigger !== 'undefined') {
+    document.querySelectorAll('[data-gsap="fade-up"]').forEach((el, i) => {
+      gsap.fromTo(el,
+        { y: 60, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            once: true,
+          },
+          delay: (i % 4) * 0.08,
+        }
+      );
+    });
+
+    // Parallax headings
+    document.querySelectorAll('.sec-h2').forEach(el => {
+      gsap.to(el, {
+        y: -35,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el.closest('section'),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+        }
+      });
+    });
+  } else {
+    // Reset hidden elements instantly when reduced-motion preferred
+    document.querySelectorAll('[data-gsap="fade-up"]').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }
+}
+
+/* ── PRELOADER ── */
+function initPreloader() {
+  const preloader = document.getElementById('preloader');
+  const bar       = document.getElementById('preloader-bar');
+  if (!preloader) return;
+
+  // Update progress bar when three-scene fires model-progress event
+  document.addEventListener('model-progress', (e) => {
+    if (bar) bar.style.width = `${Math.round(e.detail.pct * 100)}%`;
+  });
+
+  // Hide preloader when model is loaded (or mobile/no-WebGL fallback fires immediately)
+  document.addEventListener('model-loaded', () => {
+    if (bar) bar.style.width = '100%';
+    setTimeout(() => {
+      if (typeof gsap !== 'undefined') {
+        gsap.to(preloader, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          onComplete: () => {
+            preloader.classList.add('hidden');
+            animateHeroIn();
+          }
+        });
+      } else {
+        preloader.classList.add('hidden');
+        animateHeroIn();
+      }
+    }, 300);
+  });
+
+  // Safety timeout — hide preloader after 8s regardless
+  setTimeout(() => {
+    if (!preloader.classList.contains('hidden')) {
+      preloader.classList.add('hidden');
+      animateHeroIn();
+    }
+  }, 8000);
+}
+
+/* ── HERO ENTRANCE ── */
+function animateHeroIn() {
+  if (typeof gsap === 'undefined') return;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  // Split hero h1 into word spans
+  splitWords(document.getElementById('heroH1'));
+
+  const tl = gsap.timeline();
+  tl.from('.hero-h1 .word-inner', {
+    y: 90, opacity: 0,
+    duration: 1.0, ease: 'power3.out',
+    stagger: 0.07,
+  })
+  .from('.hero-pre', { y: 20, opacity: 0, duration: 0.7, ease: 'power2.out' }, 0)
+  .from('.rule',     { scaleX: 0, opacity: 0, duration: 0.7, ease: 'power2.out', transformOrigin: 'left' }, 0.4)
+  .from('.hero-sub', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, 0.5)
+  .from('.hero-actions', { y: 25, opacity: 0, duration: 0.7, ease: 'power2.out' }, 0.65)
+  .from('.hero-nums > div', { y: 20, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power2.out' }, 0.8)
+  .from('.scroll-indicator', { opacity: 0, duration: 0.5 }, 1.0);
+}
+
+/* ── WORD SPLITTER ── */
+function splitWords(el) {
+  if (!el) return;
+  function processNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const words = node.textContent.split(/(\s+)/);
+      const frag  = document.createDocumentFragment();
+      words.forEach(w => {
+        if (/^\s+$/.test(w)) {
+          frag.appendChild(document.createTextNode(w));
+        } else if (w.length) {
+          const outer = document.createElement('span');
+          outer.className = 'word';
+          const inner = document.createElement('span');
+          inner.className = 'word-inner';
+          inner.textContent = w;
+          outer.appendChild(inner);
+          frag.appendChild(outer);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'EM') {
+      Array.from(node.childNodes).forEach(processNode);
+    }
+  }
+  processNode(el);
+}
 
 /* ── NAV SCROLL ── */
 function initNav() {
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('on', window.scrollY > 70);
-  }, { passive: true });
-}
-
-/* ── PARALLAX ── */
-function initParallax() {
-  if (window.innerWidth <= 768) return;
-  const hero = document.querySelector('.hero');
-  window.addEventListener('scroll', () => {
-    const s = window.scrollY;
-    if (s < window.innerHeight * 1.4) {
-      hero.style.backgroundPositionY = `calc(50% + ${s * 0.38}px)`;
-    }
   }, { passive: true });
 }
 
@@ -323,8 +482,7 @@ function renderCatalog() {
     card.className = 'car';
     card.dataset.cat = cats;
     card.dataset.carId = car.id;
-    card.setAttribute('data-aos', 'fade-up');
-    card.setAttribute('data-aos-delay', String(delay));
+    card.setAttribute('data-gsap', 'fade-up');
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => openLightbox(car.id));
 
@@ -351,6 +509,25 @@ function renderCatalog() {
 
   initFilter();
   if (typeof setLang === 'function') setLang(localStorage.getItem('lang') || 'ru');
+
+  // Re-register new cards with GSAP ScrollTrigger
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) {
+      document.querySelectorAll('[data-gsap="fade-up"]').forEach(el => {
+        if (el.closest('#catalog')) {
+          gsap.fromTo(el,
+            { y: 60, opacity: 0 },
+            {
+              y: 0, opacity: 1,
+              duration: 0.8, ease: 'power3.out',
+              scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+            }
+          );
+        }
+      });
+    }
+  }
 }
 
 /* ── CATALOG FILTER ── */
@@ -485,38 +662,31 @@ function initForm() {
   });
 }
 
-/* ── MOBILE MENU ── */
+/* ── MOBILE MENU (fullscreen overlay) ── */
 function initMobile() {
   const burger = document.getElementById('burger');
   const mob    = document.getElementById('mob');
-  if (!burger) return;
-  burger.addEventListener('click', () => {
-    burger.classList.toggle('on');
-    mob.classList.toggle('on');
-  });
-  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  if (!burger || !mob) return;
+
+  function closeMob() {
     burger.classList.remove('on');
     mob.classList.remove('on');
-  }));
+    document.body.style.overflow = '';
+  }
+  function openMob() {
+    burger.classList.add('on');
+    mob.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }
+
+  burger.addEventListener('click', () => {
+    mob.classList.contains('on') ? closeMob() : openMob();
+  });
+
+  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMob));
+  mob.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', closeMob));
 }
 
-/* ── PARTICLES ── */
-function initParticles() {
-  const box = document.getElementById('pts');
-  if (!box) return;
-  for (let i = 0; i < 9; i++) {
-    const p = document.createElement('div');
-    p.className = 'pt';
-    const s = 2 + Math.random() * 4;
-    p.style.cssText = `
-      left:${Math.random()*100}%;
-      width:${s}px;height:${s}px;
-      animation-duration:${9+Math.random()*12}s;
-      animation-delay:${Math.random()*10}s;
-    `;
-    box.appendChild(p);
-  }
-}
 
 /* ─────────────────────────────────────────────
    LANGUAGE
