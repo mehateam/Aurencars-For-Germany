@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <script type="importmap">
   {
@@ -36,7 +36,7 @@
       --muted:   #6B6860;
       --border:  rgba(196,146,42,.12);
       --borderH: rgba(196,146,42,.5);
-      --fd: 'Inter', sans-serif;
+      --fd: 'Barlow Condensed', sans-serif;
       --fe: 'Inter', sans-serif;
       --fb: 'Inter', sans-serif;
       --nav: 72px;
@@ -375,7 +375,11 @@
     .hero-pre { margin-bottom: 28px; }
 
     .hero-h1 {
-      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-size: clamp(4rem, 8.5vw, 8rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+      line-height: .92;
       margin-bottom: 0;
     }
     .hero-h1 em {
@@ -385,6 +389,7 @@
       color: var(--gold);
       display: block;
       font-size: .65em;
+      text-transform: none;
       letter-spacing: .01em;
     }
 
@@ -1458,8 +1463,7 @@
       <div class="hero-left">
         <p class="tag hero-pre" data-i18n="hero.tag">Автомобили из Южной Кореи</p>
         <h1 class="hero-h1 display" id="heroH1" data-i18n-html="hero.h1">
-          Ваш<br>идеальный<br>
-          <em>автомобиль</em>
+          Connecting<br>Markets<br>Worldwide
         </h1>
         <span class="rule"></span>
         <p class="hero-sub" data-gsap="fade-up" data-i18n="hero.sub">

@@ -666,7 +666,7 @@ const AURENCARS_T = {
     'nav.mob.cta':      'Получить консультацию',
 
     'hero.tag':           'Автомобили из Южной Кореи',
-    'hero.h1':            'Ваш<br>идеальный<br><em>автомобиль</em>',
+    'hero.h1':            'Connecting<br>Markets<br>Worldwide',
     'hero.sub':           'Подбираем и доставляем машины из Кореи в Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан и Албанию.',
     'hero.btn1':          '→ Подобрать автомобиль',
     'hero.btn2':          'Каталог 2026',
@@ -774,7 +774,7 @@ const AURENCARS_T = {
     'nav.mob.cta':      'Get consultation',
 
     'hero.tag':           'Cars from South Korea',
-    'hero.h1':            'Your<br>perfect<br><em>car</em>',
+    'hero.h1':            'Connecting<br>Markets<br>Worldwide',
     'hero.sub':           'We source and ship cars from Korea to Germany, Netherlands, Spain, Kazakhstan, UAE, Saudi Arabia, Kyrgyzstan and Albania.',
     'hero.btn1':          '→ Find my car',
     'hero.btn2':          'Catalog 2026',
