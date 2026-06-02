@@ -265,11 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initGSAP();
   initNav();
   initCounters();
-  renderCatalog();
   initForm();
   initMobile();
   initLang();
-  initLightbox();
   // hero entrance fires ~2s after page load (after preloader fades out)
   setTimeout(animateHeroIn, 2100);
 });
@@ -296,46 +294,112 @@ function initGSAP() {
     });
   }
 
-  // Section entrance animations
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReduced && typeof ScrollTrigger !== 'undefined') {
-    document.querySelectorAll('[data-gsap="fade-up"]').forEach((el, i) => {
-      gsap.fromTo(el,
-        { y: 60, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 88%',
-            once: true,
-          },
-          delay: (i % 4) * 0.08,
-        }
-      );
-    });
 
-    // Parallax headings
-    document.querySelectorAll('.sec-h2').forEach(el => {
-      gsap.to(el, {
-        y: -35,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el.closest('section'),
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-        }
-      });
-    });
-  } else {
-    // Reset hidden elements instantly when reduced-motion preferred
-    document.querySelectorAll('[data-gsap="fade-up"]').forEach(el => {
+  if (prefersReduced || typeof ScrollTrigger === 'undefined') {
+    // Instantly show all hidden elements
+    document.querySelectorAll('[data-gsap]').forEach(el => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
+    return;
   }
+
+  // ── fade-up: generic scroll entrance
+  document.querySelectorAll('[data-gsap="fade-up"]').forEach((el, i) => {
+    gsap.fromTo(el,
+      { y: 60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
+        delay: (i % 4) * 0.08,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+    );
+  });
+
+  // ── slide-in: headings sweep from left with skew
+  document.querySelectorAll('[data-gsap="slide-in"]').forEach((el, i) => {
+    gsap.fromTo(el,
+      { x: -70, opacity: 0, skewX: -4 },
+      { x: 0, opacity: 1, skewX: 0, duration: 1.0, ease: 'expo.out',
+        delay: i * 0.05,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+    );
+  });
+
+  // ── pop: tags punch in with scale
+  document.querySelectorAll('[data-gsap="pop"]').forEach((el, i) => {
+    gsap.fromTo(el,
+      { scale: 0.75, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(2)',
+        delay: i * 0.04,
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true } }
+    );
+  });
+
+  // ── stat cards: staggered scale entrance
+  gsap.fromTo('.stat',
+    { scale: 0.9, opacity: 0, y: 30 },
+    { scale: 1, opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: '#stats', start: 'top 85%', once: true } }
+  );
+
+  // ── service items: slide + scale wipe
+  gsap.fromTo('.srv',
+    { x: -40, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.65, ease: 'power2.out',
+      stagger: 0.09,
+      scrollTrigger: { trigger: '.srv-list', start: 'top 85%', once: true } }
+  );
+
+  // ── review cards: cascade with slight rotation
+  gsap.fromTo('.rev',
+    { y: 55, rotation: 1.5, opacity: 0 },
+    { y: 0, rotation: 0, opacity: 1, duration: 0.75, ease: 'power2.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: '.rev-grid', start: 'top 85%', once: true } }
+  );
+
+  // ─── PARALLAX ────────────────────────────────────
+
+  // Hero text layers at different speeds (depth illusion)
+  gsap.to('.hero-pre',  { y: -28, ease: 'none',
+    scrollTrigger: { trigger: '.hero', scrub: 1.0, start: 'top top', end: 'bottom top' } });
+  gsap.to('.hero-h1',   { y: -65, ease: 'none',
+    scrollTrigger: { trigger: '.hero', scrub: 1.3, start: 'top top', end: 'bottom top' } });
+  gsap.to('.hero-sub',  { y: -42, ease: 'none',
+    scrollTrigger: { trigger: '.hero', scrub: 1.0, start: 'top top', end: 'bottom top' } });
+  gsap.to('.hero-actions', { y: -30, ease: 'none',
+    scrollTrigger: { trigger: '.hero', scrub: 0.9, start: 'top top', end: 'bottom top' } });
+  gsap.to('.hero-nums', { y: -18, ease: 'none',
+    scrollTrigger: { trigger: '.hero', scrub: 0.7, start: 'top top', end: 'bottom top' } });
+
+  // Section headings parallax
+  document.querySelectorAll('.sec-h2').forEach(el => {
+    gsap.to(el, { y: -40, ease: 'none',
+      scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+  });
+
+  // Tags float up slightly
+  document.querySelectorAll('.tag').forEach(el => {
+    gsap.to(el, { y: -18, ease: 'none',
+      scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: 1.0 } });
+  });
+
+  // Stats block rises faster
+  gsap.to('#stats', { y: -45, ease: 'none',
+    scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+
+  // Service items alternating parallax depths
+  document.querySelectorAll('.srv').forEach((el, i) => {
+    gsap.to(el, { y: i % 2 === 0 ? -14 : -28, ease: 'none',
+      scrollTrigger: { trigger: '#services', start: 'top bottom', end: 'bottom top', scrub: 1.1 } });
+  });
+
+  // Review cards alternating
+  document.querySelectorAll('.rev').forEach((el, i) => {
+    gsap.to(el, { y: i % 2 === 0 ? -22 : -44, ease: 'none',
+      scrollTrigger: { trigger: '#reviews', start: 'top bottom', end: 'bottom top', scrub: 1.2 } });
+  });
 }
 
 
@@ -702,12 +766,8 @@ const AURENCARS_T = {
     'srv.4.details':  'Остаёмся на связи и после доставки. Вопросы по таможне, документам или техническому состоянию — пишите в WhatsApp. Каждая сделка сопровождается письменной гарантией и оригиналами всех документов о покупке.',
 
     'cat.tag':          'Каталог',
-    'cat.h2':           'Автомобили<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">в наличии</em>',
-    'cat.flt.all':      'Все',
-    'cat.flt.sedan':    'Седаны',
-    'cat.flt.suv':      'SUV',
-    'cat.flt.electric': 'Электро',
-    'cat.flt.premium':  'Премиум',
+    'cat.h2':           'Каталог<br>автомобилей',
+    'cat.placeholder':  'Новые автомобили появятся в ближайшее время',
     'cat.btn':          '→ Написать нам',
     'car.overlay':      'Смотреть фото',
 
@@ -810,12 +870,8 @@ const AURENCARS_T = {
     'srv.4.details':  "We stay with you after delivery too. Questions about customs, documents or the car's condition — message us on WhatsApp. Every transaction comes with a written guarantee and all original purchase documents.",
 
     'cat.tag':          'Catalog',
-    'cat.h2':           'Available<br><em style="font-family:var(--fe);font-style:italic;font-weight:300;color:var(--gold)">vehicles</em>',
-    'cat.flt.all':      'All',
-    'cat.flt.sedan':    'Sedans',
-    'cat.flt.suv':      'SUV',
-    'cat.flt.electric': 'Electric',
-    'cat.flt.premium':  'Premium',
+    'cat.h2':           'Vehicle<br>Catalog',
+    'cat.placeholder':  'New vehicles coming soon',
     'cat.btn':          '→ Inquire',
     'car.overlay':      'View photos',
 

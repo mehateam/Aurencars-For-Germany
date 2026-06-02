@@ -30,7 +30,7 @@ function init3D() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 1.1;
 
   /* Scene */
   const scene = new THREE.Scene();
@@ -40,9 +40,9 @@ function init3D() {
   camera.position.set(4, 1.5, 6);
   camera.lookAt(0, 0.8, 0);
 
-  /* Lighting — 3-point automotive studio */
-  // Key light: warm white from above-front
-  const keyLight = new THREE.DirectionalLight(0xFFF5E0, 3.5);
+  /* Lighting — adjusted for white/light background */
+  // Key light: warm white from above-front (reduced for light bg)
+  const keyLight = new THREE.DirectionalLight(0xFFF5E0, 2.5);
   keyLight.position.set(5, 8, 5);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.set(2048, 2048);
@@ -54,23 +54,23 @@ function init3D() {
   keyLight.shadow.camera.bottom = -10;
   scene.add(keyLight);
 
-  // Fill light: cool blue from opposite side
-  const fillLight = new THREE.DirectionalLight(0xB0C8FF, 1.2);
+  // Fill light: cool blue from opposite side (reduced)
+  const fillLight = new THREE.DirectionalLight(0xB0C8FF, 0.8);
   fillLight.position.set(-6, 3, -4);
   scene.add(fillLight);
 
-  // Rim light: gold from behind — AurenCars brand color
-  const rimLight = new THREE.DirectionalLight(0xC4922A, 2.0);
+  // Rim light: gold from behind — increased for contrast against white
+  const rimLight = new THREE.DirectionalLight(0xC4922A, 2.5);
   rimLight.position.set(0, 2, -8);
   scene.add(rimLight);
 
-  // Ambient: subtle so shadows aren't pitch black
-  const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+  // Ambient: brighter base so model doesn't look too dark on white bg
+  const ambient = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambient);
 
-  // Ground reflection plane (invisible, catches shadows)
+  // Ground shadow plane
   const groundGeo = new THREE.PlaneGeometry(40, 40);
-  const groundMat = new THREE.ShadowMaterial({ opacity: 0.25 });
+  const groundMat = new THREE.ShadowMaterial({ opacity: 0.12 });
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = 0;
@@ -87,9 +87,21 @@ function init3D() {
     { pos: new THREE.Vector3(4.5, 2,    5),   look: new THREE.Vector3(0, 0.8, 0) }, // 100% footer
   ];
 
-  const targetPos  = keyframes[0].pos.clone();
-  const targetLook = keyframes[0].look.clone();
+  const targetPos   = keyframes[0].pos.clone();
+  const targetLook  = keyframes[0].look.clone();
   const currentLook = new THREE.Vector3(0, 0.8, 0);
+
+  /* Mouse interaction state */
+  let mouseX = 0, mouseY = 0;
+  let targetMouseX = 0, targetMouseY = 0;
+
+  // Only wire up mouse on non-touch devices
+  if (!('ontouchstart' in window)) {
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = (e.clientX / window.innerWidth  - 0.5) * 2; // -1 to +1
+      targetMouseY = -(e.clientY / window.innerHeight - 0.5) * 2; // -1 to +1
+    }, { passive: true });
+  }
 
   let scrollProgress = 0;
   let idleTimer = null;
@@ -106,7 +118,6 @@ function init3D() {
     targetLook.lerpVectors(kf0.look, kf1.look, t);
   }
 
-  /* Hook into GSAP ScrollTrigger via window event */
   window.addEventListener('aurencars-scroll', (e) => {
     scrollProgress = e.detail.progress;
     isScrolling = true;
@@ -125,22 +136,17 @@ function init3D() {
     (gltf) => {
       model = gltf.scene;
 
-      // Center the model
-      const box = new THREE.Box3().setFromObject(model);
+      const box    = new THREE.Box3().setFromObject(model);
       const center = box.getCenter(new THREE.Vector3());
       const size   = box.getSize(new THREE.Vector3());
       model.position.sub(center);
 
-      // Scale so car fits nicely — roughly 4.5 units wide
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale  = 4.5 / maxDim;
-      model.scale.setScalar(scale);
+      model.scale.setScalar(4.5 / maxDim);
 
-      // Sit on ground plane
       const boxAfter = new THREE.Box3().setFromObject(model);
       model.position.y -= boxAfter.min.y;
 
-      // Shadows on all meshes
       model.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
@@ -154,8 +160,7 @@ function init3D() {
     },
     (xhr) => {
       if (xhr.total > 0) {
-        const pct = xhr.loaded / xhr.total;
-        document.dispatchEvent(new CustomEvent('model-progress', { detail: { pct } }));
+        document.dispatchEvent(new CustomEvent('model-progress', { detail: { pct: xhr.loaded / xhr.total } }));
       }
     },
     (err) => {
@@ -177,15 +182,23 @@ function init3D() {
   const clock = new THREE.Clock();
   function animate() {
     requestAnimationFrame(animate);
-    const delta = clock.getDelta();
+    clock.getDelta();
 
-    // Idle slow rotation when not scrolling and model loaded
+    // Idle slow rotation when not scrolling
     if (modelLoaded && model && !isScrolling) {
       model.rotation.y += 0.0003;
     }
 
-    // Smooth camera position lerp
-    camera.position.lerp(targetPos, 0.04);
+    // Smooth mouse lerp
+    mouseX += (targetMouseX - mouseX) * 0.055;
+    mouseY += (targetMouseY - mouseY) * 0.055;
+
+    // Blend scroll-driven position with mouse offset
+    const adjustedPos = targetPos.clone().add(
+      new THREE.Vector3(mouseX * 1.8, mouseY * 0.9, 0)
+    );
+
+    camera.position.lerp(adjustedPos, 0.04);
     currentLook.lerp(targetLook, 0.04);
     camera.lookAt(currentLook);
 
