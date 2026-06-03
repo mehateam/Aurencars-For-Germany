@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 /* ─── helpers ──────────────────────────────────────────────────── */
 function isWebGLAvailable() {
@@ -29,8 +30,6 @@ function init3D() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
 
   /* Scene */
   const scene = new THREE.Scene();
@@ -40,25 +39,38 @@ function init3D() {
   camera.position.set(2, 1.5, 7);
   camera.lookAt(-2, 0.8, 0);
 
-  /* Lighting — natural daylight to match white theme */
-  // Hemisphere: soft sky/ground — neutral, no colour cast
-  const hemi = new THREE.HemisphereLight(0xffffff, 0xdddddd, 1.8);
-  scene.add(hemi);
+  /* Lighting — RoomEnvironment for realistic car product quality */
+  // PMREMGenerator creates an environment map from RoomEnvironment —
+  // gives the car soft reflections and proper illumination from all angles
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.4;
 
-  // Single soft sun from upper-front for gentle shadows
-  const sun = new THREE.DirectionalLight(0xffffff, 1.0);
-  sun.position.set(4, 10, 6);
-  sun.castShadow = true;
-  sun.shadow.mapSize.set(2048, 2048);
-  sun.shadow.camera.near = 0.5;
-  sun.shadow.camera.far = 50;
-  sun.shadow.camera.left  = -10; sun.shadow.camera.right = 10;
-  sun.shadow.camera.top   =  10; sun.shadow.camera.bottom = -10;
-  scene.add(sun);
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  pmrem.dispose();
 
-  // Ground shadow plane
+  // Additional directional lights for definition and soft shadow
+  const frontLight = new THREE.DirectionalLight(0xffffff, 1.8);
+  frontLight.position.set(3, 6, 8);
+  frontLight.castShadow = true;
+  frontLight.shadow.mapSize.set(2048, 2048);
+  frontLight.shadow.camera.near   =  0.5;
+  frontLight.shadow.camera.far    = 50;
+  frontLight.shadow.camera.left   = -10; frontLight.shadow.camera.right = 10;
+  frontLight.shadow.camera.top    =  10; frontLight.shadow.camera.bottom = -10;
+  scene.add(frontLight);
+
+  const fillLeft = new THREE.DirectionalLight(0xffffff, 1.2);
+  fillLeft.position.set(-8, 4, 2);
+  scene.add(fillLeft);
+
+  const fillRight = new THREE.DirectionalLight(0xffffff, 1.0);
+  fillRight.position.set(8, 4, 2);
+  scene.add(fillRight);
+
+  // Subtle ground shadow
   const groundGeo = new THREE.PlaneGeometry(40, 40);
-  const groundMat = new THREE.ShadowMaterial({ opacity: 0.10 });
+  const groundMat = new THREE.ShadowMaterial({ opacity: 0.08 });
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = 0;
