@@ -16,8 +16,13 @@ const MIME = {
   '.gltf': 'model/gltf+json',
 };
 
+const ROUTES = {
+  '/catalog': '/catalog.html',
+  '/admin':   '/admin.html',
+};
+
 http.createServer((req, res) => {
-  let filePath = req.url === '/' ? '/index.html' : req.url;
+  let filePath = req.url === '/' ? '/index.html' : (ROUTES[req.url] || req.url);
   filePath = path.join(__dirname, filePath);
   const ext = path.extname(filePath);
 

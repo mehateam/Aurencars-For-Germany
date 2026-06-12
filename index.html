@@ -484,7 +484,6 @@
     }
     .sec--s1 { background: rgba(247,247,247,0.90); }
     .sec--s2 { background: rgba(239,239,239,0.88); }
-    #catalog  { background: rgba(255,255,255,0.97) !important; }
     .footer   { background: rgba(247,247,247,0.97) !important; position: relative; z-index: 1; }
 
     .sec-header {
@@ -1218,7 +1217,6 @@
     body.no-3d { background: #FFFFFF; }
     body.no-3d .sec     { background: var(--s1) !important; }
     body.no-3d .sec--s1 { background: var(--s1) !important; }
-    body.no-3d #catalog { background: var(--s1) !important; }
     body.no-3d .footer  { background: var(--s1) !important; }
     body.no-3d .hero    { background: var(--bg) !important; }
 
@@ -1377,19 +1375,6 @@
     .mob-overlay.on .btn { opacity: 1; transform: translateY(0); }
 
     /* ═══════════════════════════════════════════════
-       CATALOG PLACEHOLDER
-    ═══════════════════════════════════════════════ */
-    .catalog-placeholder {
-      text-align: center;
-      padding: 80px 0 40px;
-      font-size: .9rem;
-      color: var(--muted);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      border-top: 1px solid var(--border);
-    }
-
-    /* ═══════════════════════════════════════════════
        GSAP ENTRANCE BASE STATE
     ═══════════════════════════════════════════════ */
     [data-gsap="fade-up"] {
@@ -1443,7 +1428,7 @@
     <ul class="nav-links">
       <li><a href="#about" data-i18n="nav.about">О нас</a></li>
       <li><a href="#services" data-i18n="nav.services">Услуги</a></li>
-      <li><a href="#catalog" data-i18n="nav.catalog">Каталог</a></li>
+      <li><a href="/catalog" data-i18n="nav.catalog">Каталог</a></li>
       <li><a href="#reviews" data-i18n="nav.reviews">Отзывы</a></li>
       <li><a href="#contact" data-i18n="nav.contact">Контакты</a></li>
     </ul>
@@ -1462,7 +1447,7 @@
 <div class="mob-overlay" id="mob">
   <a href="#about" data-i18n="nav.about">О нас</a>
   <a href="#services" data-i18n="nav.services">Услуги</a>
-  <a href="#catalog" data-i18n="nav.catalog">Каталог</a>
+  <a href="/catalog" data-i18n="nav.catalog">Каталог</a>
   <a href="#reviews" data-i18n="nav.reviews">Отзывы</a>
   <a href="#contact" data-i18n="nav.contact">Контакты</a>
   <div class="mob-lang">
@@ -1489,15 +1474,15 @@
         </p>
         <div class="hero-actions" data-gsap="fade-up">
           <a href="#contact" class="btn btn-gold" data-i18n="hero.btn1">→ Подобрать автомобиль</a>
-          <a href="#catalog" class="btn btn-outline" data-i18n="hero.btn2">Каталог 2026</a>
+          <a href="/catalog" class="btn btn-outline" data-i18n="hero.btn2">Каталог 2026</a>
         </div>
         <div class="hero-nums" data-gsap="fade-up">
           <div>
-            <span class="hero-num-n">11</span>
+            <span class="hero-num-n">5</span>
             <p class="hero-num-l" data-i18n="hero.num1.label">Лет опыта</p>
           </div>
           <div>
-            <span class="hero-num-n">4 200+</span>
+            <span class="hero-num-n">1 200+</span>
             <p class="hero-num-l" data-i18n="hero.num2.label">Авто экспортировано</p>
           </div>
           <div>
@@ -1526,7 +1511,7 @@
           <div class="ghost-num" aria-hidden="true">01</div>
           <p class="tag" data-gsap="pop" data-i18n="about.tag">О компании</p>
           <h2 class="sec-h2 display" data-gsap="slide-in" data-i18n-html="about.h2">
-            11 лет.<br>Одна цель.
+            5 лет.<br>Одна цель.
           </h2>
           <p class="editorial sec-editorial" data-gsap="fade-up" data-i18n="about.editorial">
             Честно и без лишних слов — в каждой сделке
@@ -1541,11 +1526,11 @@
       </div>
       <div class="stats" id="stats" data-gsap="fade-up">
         <div class="stat">
-          <span class="stat-n" data-count="11" data-sfx="">0</span>
+          <span class="stat-n" data-count="5" data-sfx="">0</span>
           <span class="stat-l" data-i18n="about.stat1.label">Лет на рынке</span>
         </div>
         <div class="stat">
-          <span class="stat-n" data-count="4200" data-sfx="+">0+</span>
+          <span class="stat-n" data-count="1200" data-sfx="+">0+</span>
           <span class="stat-l" data-i18n="about.stat2.label">Экспортировано авто</span>
         </div>
         <div class="stat">
@@ -1644,25 +1629,11 @@
   </div>
 </section>
 
-<!-- ══════════════ CATALOG ══════════════ -->
-<section class="sec sec--s1" id="catalog">
-  <div class="wrap">
-    <div class="sec-header" style="position:relative">
-      <div class="ghost-num" aria-hidden="true">03</div>
-      <p class="tag" data-gsap="pop" data-i18n="cat.tag">Каталог</p>
-      <h2 class="sec-h2 display" data-gsap="slide-in" data-i18n-html="cat.h2">Каталог<br>автомобилей</h2>
-    </div>
-    <p class="catalog-placeholder" data-gsap="fade-up" data-i18n="cat.placeholder">
-      Новые автомобили появятся в ближайшее время
-    </p>
-  </div>
-</section>
-
 <!-- ══════════════ REVIEWS ══════════════ -->
 <section class="sec" id="reviews">
   <div class="wrap">
     <div class="sec-header" style="position:relative">
-      <div class="ghost-num" aria-hidden="true">04</div>
+      <div class="ghost-num" aria-hidden="true">03</div>
       <p class="tag" data-gsap="pop" data-i18n="rev.tag">Отзывы</p>
       <h2 class="sec-h2 display" data-gsap="slide-in" data-i18n-html="rev.h2">Что говорят<br>клиенты</h2>
     </div>
@@ -1747,7 +1718,7 @@
 <section class="sec sec--s1" id="contact">
   <div class="wrap">
     <div class="sec-header" style="position:relative">
-      <div class="ghost-num" aria-hidden="true">05</div>
+      <div class="ghost-num" aria-hidden="true">04</div>
       <p class="tag" data-gsap="pop" data-i18n="con.tag">Контакты</p>
       <h2 class="sec-h2 display" data-gsap="slide-in" data-i18n="con.h2">Оставьте заявку</h2>
       <p class="editorial sec-editorial" data-gsap="fade-up" data-i18n="con.editorial">Ответим в течение часа</p>
@@ -1867,7 +1838,7 @@
         <ul>
           <li><a href="#about" data-i18n="foot.nav.about">О компании</a></li>
           <li><a href="#services" data-i18n="foot.nav.services">Услуги</a></li>
-          <li><a href="#catalog" data-i18n="foot.nav.catalog">Каталог 2025</a></li>
+          <li><a href="/catalog" data-i18n="foot.nav.catalog">Каталог 2025</a></li>
           <li><a href="#reviews" data-i18n="foot.nav.reviews">Отзывы</a></li>
           <li><a href="#contact" data-i18n="foot.nav.contact">Контакты</a></li>
         </ul>

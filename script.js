@@ -740,9 +740,9 @@ const AURENCARS_T = {
     'hero.scroll':        'Скролл',
 
     'about.tag':          'О компании',
-    'about.h2':           '11 лет.<br>Одна цель.',
+    'about.h2':           '5 лет.<br>Одна цель.',
     'about.editorial':    'Честно и без лишних слов — в каждой сделке',
-    'about.body1':        '<strong>AurenCars</strong> работает из Кореи уже 11 лет. Напрямую с корейскими дилерами — никаких посредников.',
+    'about.body1':        '<strong>AurenCars</strong> работает из Кореи уже 5 лет. Напрямую с корейскими дилерами — никаких посредников.',
     'about.body2':        'Доставляем в <strong>Германию, Нидерланды, Испанию, Казахстан, ОАЭ, Саудовскую Аравию, Кыргызстан</strong> и Албанию. Каждая сделка — по договору.',
     'about.stat1.label':  'Лет на рынке',
     'about.stat2.label':  'Экспортировано авто',
@@ -765,9 +765,6 @@ const AURENCARS_T = {
     'srv.4.body':     'Всегда на связи по WhatsApp. Никаких скрытых платежей и сюрпризов.',
     'srv.4.details':  'Остаёмся на связи и после доставки. Вопросы по таможне, документам или техническому состоянию — пишите в WhatsApp. Каждая сделка сопровождается письменной гарантией и оригиналами всех документов о покупке.',
 
-    'cat.tag':          'Каталог',
-    'cat.h2':           'Каталог<br>автомобилей',
-    'cat.placeholder':  'Новые автомобили появятся в ближайшее время',
     'cat.btn':          '→ Написать нам',
     'car.overlay':      'Смотреть фото',
 
@@ -844,9 +841,9 @@ const AURENCARS_T = {
     'hero.scroll':        'Scroll',
 
     'about.tag':          'About us',
-    'about.h2':           '11 years.<br>One goal.',
+    'about.h2':           '5 years.<br>One goal.',
     'about.editorial':    'Straight talk, no fluff — every single deal',
-    'about.body1':        '<strong>AurenCars</strong> has been working out of Korea for 11 years. Direct with Korean dealers — no middlemen.',
+    'about.body1':        '<strong>AurenCars</strong> has been working out of Korea for 5 years. Direct with Korean dealers — no middlemen.',
     'about.body2':        'We ship to <strong>Germany, Netherlands, Spain, Kazakhstan, UAE, Saudi Arabia, Kyrgyzstan</strong> and Albania. Every deal comes with a contract.',
     'about.stat1.label':  'Years in business',
     'about.stat2.label':  'Vehicles exported',
@@ -869,9 +866,6 @@ const AURENCARS_T = {
     'srv.4.body':     'Always reachable on WhatsApp. No hidden fees, no surprises at the end.',
     'srv.4.details':  "We stay with you after delivery too. Questions about customs, documents or the car's condition — message us on WhatsApp. Every transaction comes with a written guarantee and all original purchase documents.",
 
-    'cat.tag':          'Catalog',
-    'cat.h2':           'Vehicle<br>Catalog',
-    'cat.placeholder':  'New vehicles coming soon',
     'cat.btn':          '→ Inquire',
     'car.overlay':      'View photos',
 

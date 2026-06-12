@@ -3,25 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AurenCars Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>AurenCars — Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg:     #08080E;
-      --s1:     #101018;
-      --s2:     #17171F;
-      --s3:     #222230;
-      --gold:   #C4922A;
-      --goldl:  #DFB054;
-      --goldg:  rgba(196,146,42,.15);
-      --text:   #EAE6DC;
-      --muted:  #6B6860;
-      --border: rgba(196,146,42,.12);
-      --red:    #e05252;
-      --green:  #52a873;
-      --fd: 'Segoe UI', sans-serif;
+      --bg:      #FFFFFF;
+      --s1:      #F7F7F7;
+      --s2:      #EFEFEF;
+      --s3:      #E2E2E2;
+      --gold:    #C4922A;
+      --goldl:   #DFB054;
+      --goldd:   #9A6F18;
+      --goldg:   rgba(196,146,42,.10);
+      --text:    #0A0A0A;
+      --muted:   #666666;
+      --border:  rgba(0,0,0,.08);
+      --red:     #C0392B;
+      --redg:    rgba(192,57,43,.08);
+      --green:   #2E8B57;
+      --fd: 'Barlow Condensed', sans-serif;
+      --fb: 'Inter', sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: var(--fd); font-size: 14px; line-height: 1.5; }
+    body { background: var(--bg); color: var(--text); font-family: var(--fb); font-weight: 300; font-size: 14px; line-height: 1.5; }
     a { color: var(--gold); text-decoration: none; }
     button { cursor: pointer; font-family: inherit; font-size: inherit; border: none; }
     input, select, textarea { font-family: inherit; font-size: inherit; }
@@ -32,36 +41,45 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg);
+      background: var(--s1);
     }
     .login-box {
       width: 100%;
       max-width: 380px;
       padding: 48px 40px;
-      background: var(--s1);
+      background: #fff;
       border: 1px solid var(--border);
+      box-shadow: 0 4px 32px rgba(0,0,0,.06);
     }
     .login-logo {
-      font-size: 1.4rem;
-      font-weight: 700;
+      font-family: var(--fd);
+      font-size: 1.6rem;
+      font-weight: 800;
       letter-spacing: -.02em;
       margin-bottom: 6px;
     }
     .login-logo span { color: var(--gold); }
-    .login-sub { color: var(--muted); font-size: .82rem; margin-bottom: 32px; }
+    .login-sub {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
     .login-box .fg { margin-bottom: 20px; }
     .login-box label {
       display: block;
-      font-size: .7rem;
-      font-weight: 600;
-      letter-spacing: .1em;
+      font-size: .66rem;
+      font-weight: 500;
+      letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 8px;
     }
     .login-box input {
       width: 100%;
-      background: var(--s2);
+      background: var(--s1);
       border: 1px solid var(--border);
       padding: 12px 14px;
       color: var(--text);
@@ -69,21 +87,21 @@
       transition: border-color .2s;
     }
     .login-box input:focus { border-color: var(--gold); }
-    .login-box input::placeholder { color: var(--muted); }
+    .login-box input::placeholder { color: var(--s3); }
     .btn-primary {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       background: var(--gold);
       color: #000;
-      font-weight: 600;
-      font-size: .88rem;
-      letter-spacing: .05em;
+      font-weight: 500;
+      font-size: .8rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      transition: background .2s;
+      transition: background .25s ease, transform .25s ease;
       margin-top: 8px;
     }
-    .btn-primary:hover { background: var(--goldl); }
-    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-primary:hover { background: var(--goldl); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
     .login-err {
       color: var(--red);
       font-size: .78rem;
@@ -92,50 +110,60 @@
     }
 
     /* ── DASHBOARD ── */
-    #dashboard { display: none; min-height: 100vh; }
+    #dashboard { display: none; min-height: 100vh; background: var(--s1); }
     .dash-header {
       position: sticky;
       top: 0;
-      background: rgba(8,8,14,.97);
+      background: rgba(255,255,255,.95);
       border-bottom: 1px solid var(--border);
       z-index: 100;
       padding: 0 32px;
-      height: 60px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
-    .dash-logo { font-size: 1.1rem; font-weight: 700; }
+    .dash-logo { font-family: var(--fd); font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
     .dash-logo span { color: var(--gold); }
-    .dash-logo small { color: var(--muted); font-size: .7rem; font-weight: 400; margin-left: 8px; }
+    .dash-logo small {
+      color: var(--muted);
+      font-size: .62rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      margin-left: 10px;
+      font-family: var(--fb);
+    }
     .dash-actions { display: flex; align-items: center; gap: 12px; }
     .btn-add {
       background: var(--gold);
       color: #000;
-      font-weight: 600;
-      font-size: .78rem;
-      letter-spacing: .08em;
+      font-weight: 500;
+      font-size: .72rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      padding: 9px 20px;
-      transition: background .2s;
+      padding: 11px 22px;
+      transition: background .25s ease;
     }
     .btn-add:hover { background: var(--goldl); }
     .btn-logout {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
-      font-size: .78rem;
-      padding: 8px 16px;
-      transition: all .2s;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      transition: all .25s ease;
     }
     .btn-logout:hover { border-color: var(--gold); color: var(--gold); }
 
-    .dash-body { padding: 32px; }
+    .dash-body { padding: 32px; max-width: 1400px; margin: 0 auto; }
     .dash-title {
       font-size: .68rem;
-      font-weight: 600;
-      letter-spacing: .2em;
+      font-weight: 500;
+      letter-spacing: .25em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 20px;
@@ -145,45 +173,63 @@
     /* ── VEHICLE GRID ── */
     #adminGrid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 2px;
     }
     .admin-card {
-      background: var(--s1);
+      background: #fff;
       overflow: hidden;
-      border-left: 2px solid transparent;
-      transition: border-color .25s;
+      border-left: 3px solid transparent;
+      box-shadow: 0 2px 16px rgba(0,0,0,.04);
+      transition: border-color .25s ease, box-shadow .25s ease;
     }
-    .admin-card:hover { border-left-color: var(--gold); }
+    .admin-card:hover { border-left-color: var(--gold); box-shadow: 0 4px 24px rgba(0,0,0,.08); }
     .admin-card-thumb {
-      aspect-ratio: 16/9;
+      aspect-ratio: 4/3;
       background: var(--s2);
       overflow: hidden;
+      position: relative;
     }
     .admin-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .admin-card-nophoto {
       width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
       color: var(--muted);
-      font-size: .65rem;
-      letter-spacing: .15em;
+      font-family: var(--fd);
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
-    .admin-card-info { padding: 14px 16px 10px; }
-    .admin-card-name { font-weight: 600; font-size: .95rem; margin-bottom: 3px; }
+    .admin-status {
+      position: absolute;
+      top: 12px; right: 12px;
+      font-family: var(--fd);
+      font-size: .6rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      z-index: 1;
+    }
+    .admin-status--available { background: var(--gold); color: #000; }
+    .admin-status--sold { background: rgba(10,10,10,.85); color: #fff; }
+    .admin-card-info { padding: 16px 18px 12px; }
+    .admin-card-name { font-family: var(--fd); font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; letter-spacing: -.01em; }
     .admin-card-meta { color: var(--muted); font-size: .78rem; }
+    .admin-card-price { color: var(--gold); font-family: var(--fd); font-weight: 800; font-size: 1.1rem; margin-top: 8px; }
     .admin-card-btns {
       display: flex;
       gap: 2px;
-      padding: 0 16px 14px;
+      padding: 12px 18px 18px;
     }
     .btn-edit {
       flex: 1;
-      padding: 7px;
-      background: var(--s2);
+      padding: 9px;
+      background: var(--s1);
       color: var(--text);
-      font-size: .72rem;
-      font-weight: 600;
-      letter-spacing: .06em;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .12em;
       text-transform: uppercase;
       border: 1px solid var(--border);
       transition: all .2s;
@@ -191,12 +237,12 @@
     .btn-edit:hover { border-color: var(--gold); color: var(--gold); }
     .btn-del {
       flex: 1;
-      padding: 7px;
+      padding: 9px;
       background: transparent;
       color: var(--muted);
-      font-size: .72rem;
-      font-weight: 600;
-      letter-spacing: .06em;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .12em;
       text-transform: uppercase;
       border: 1px solid var(--border);
       transition: all .2s;
@@ -209,6 +255,7 @@
       text-align: center;
       color: var(--muted);
     }
+    .empty-state strong { color: var(--text); font-family: var(--fd); font-size: 1.2rem; font-weight: 700; }
     .empty-state p { margin-top: 8px; font-size: .85rem; }
 
     /* ── MODAL ── */
@@ -216,7 +263,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.8);
+      background: rgba(10,10,10,.6);
       z-index: 500;
       align-items: flex-start;
       justify-content: center;
@@ -225,7 +272,7 @@
     }
     #modal.open { display: flex; }
     .modal-box {
-      background: var(--s1);
+      background: #fff;
       width: 100%;
       max-width: 680px;
       border: 1px solid var(--border);
@@ -236,19 +283,20 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 28px;
+      padding: 22px 28px;
       border-bottom: 1px solid var(--border);
     }
     .modal-title {
-      font-size: .9rem;
-      font-weight: 700;
-      letter-spacing: .05em;
+      font-family: var(--fd);
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -.01em;
       text-transform: uppercase;
     }
     .modal-close {
       background: none;
       color: var(--muted);
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       line-height: 1;
       padding: 4px 8px;
       transition: color .2s;
@@ -256,15 +304,15 @@
     .modal-close:hover { color: var(--text); }
     .modal-body { padding: 28px; }
     .modal-section {
-      margin-bottom: 32px;
-      padding-bottom: 32px;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
       border-bottom: 1px solid var(--border);
     }
     .modal-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .modal-section-title {
-      font-size: .65rem;
-      font-weight: 700;
-      letter-spacing: .2em;
+      font-size: .64rem;
+      font-weight: 500;
+      letter-spacing: .25em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 20px;
@@ -275,60 +323,36 @@
     .fg label {
       display: block;
       font-size: .66rem;
-      font-weight: 600;
-      letter-spacing: .1em;
+      font-weight: 500;
+      letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 7px;
+      margin-bottom: 8px;
     }
     .fg input, .fg select, .fg textarea {
       width: 100%;
-      background: var(--s2);
+      background: var(--s1);
       border: 1px solid var(--border);
-      padding: 10px 12px;
+      padding: 11px 13px;
       color: var(--text);
       outline: none;
       transition: border-color .2s;
     }
     .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
     .fg input::placeholder, .fg textarea::placeholder { color: var(--s3); }
-    .fg select option { background: var(--s2); }
+    .fg select option { background: #fff; }
     .fg textarea { resize: vertical; min-height: 90px; }
     .fg-full { grid-column: 1 / -1; }
 
-    /* Categories checkboxes */
-    .cat-checks {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-    .cat-check {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      border: 1px solid var(--border);
-      background: var(--s2);
-      cursor: pointer;
-      transition: all .2s;
-      font-size: .75rem;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .cat-check input { width: 13px; height: 13px; accent-color: var(--gold); cursor: pointer; }
-    .cat-check:has(input:checked) { border-color: var(--gold); color: var(--gold); background: var(--goldg); }
-
     /* Photo upload */
     .drop-zone {
-      border: 1px dashed rgba(196,146,42,.3);
-      padding: 24px;
+      border: 1px dashed rgba(196,146,42,.4);
+      padding: 28px;
       text-align: center;
       cursor: pointer;
       transition: border-color .2s, background .2s;
       margin-bottom: 14px;
+      background: var(--s1);
     }
     .drop-zone:hover, .drop-zone.dragover { border-color: var(--gold); background: var(--goldg); }
     .drop-zone-icon { font-size: 1.6rem; margin-bottom: 6px; opacity: .5; }
@@ -351,7 +375,7 @@
     .photo-thumb-remove {
       position: absolute;
       top: 4px; right: 4px;
-      background: rgba(0,0,0,.75);
+      background: rgba(10,10,10,.75);
       color: #fff;
       border: none;
       width: 22px; height: 22px;
@@ -376,12 +400,12 @@
     .btn-save {
       background: var(--gold);
       color: #000;
-      font-weight: 700;
-      font-size: .8rem;
-      letter-spacing: .08em;
+      font-weight: 500;
+      font-size: .76rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      padding: 12px 32px;
-      transition: background .2s;
+      padding: 13px 32px;
+      transition: background .25s ease;
     }
     .btn-save:hover { background: var(--goldl); }
     .btn-save:disabled { opacity: .5; cursor: not-allowed; }
@@ -389,22 +413,24 @@
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
-      font-size: .78rem;
-      padding: 11px 20px;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 12px 20px;
       transition: all .2s;
     }
     .btn-cancel:hover { border-color: var(--text); color: var(--text); }
     .btn-delete-vehicle {
       background: transparent;
-      border: 1px solid rgba(224,82,82,.3);
+      border: 1px solid rgba(192,57,43,.3);
       color: var(--red);
-      font-size: .72rem;
-      padding: 10px 16px;
-      letter-spacing: .06em;
+      font-size: .68rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
+      padding: 11px 16px;
       transition: all .2s;
     }
-    .btn-delete-vehicle:hover { background: rgba(224,82,82,.1); border-color: var(--red); }
+    .btn-delete-vehicle:hover { background: var(--redg); border-color: var(--red); }
 
     /* Status toast */
     #statusToast {
@@ -419,7 +445,7 @@
       max-width: 320px;
     }
     #statusToast.show { transform: translateX(0); }
-    #statusToast.success { background: var(--green); color: #000; }
+    #statusToast.success { background: var(--green); color: #fff; }
     #statusToast.error { background: var(--red); color: #fff; }
 
     /* Upload progress */
@@ -445,7 +471,7 @@
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">Auren<span>Cars</span></div>
-    <div class="login-sub">Admin panel</div>
+    <div class="login-sub">Admin Panel</div>
     <form id="loginForm">
       <div class="fg">
         <label>Email</label>
@@ -487,50 +513,44 @@
     </div>
     <div class="modal-body">
 
-      <!-- Basic info -->
+      <!-- Vehicle info -->
       <div class="modal-section">
         <div class="modal-section-title">Vehicle info</div>
         <div class="form-row">
           <div class="fg">
-            <label>Car name / model *</label>
-            <input type="text" id="fName" placeholder="Genesis GV80" required>
+            <label>Brand *</label>
+            <input type="text" id="fBrand" placeholder="Genesis" required>
+          </div>
+          <div class="fg">
+            <label>Model *</label>
+            <input type="text" id="fModel" placeholder="GV80" required>
           </div>
           <div class="fg">
             <label>Year *</label>
-            <input type="number" id="fYear" placeholder="2025" min="1980" max="2030">
+            <input type="number" id="fYear" placeholder="2025" min="1980" max="2030" required>
           </div>
           <div class="fg">
-            <label>Mileage</label>
-            <input type="text" id="fMileage" placeholder="5 000 km · New">
-          </div>
-          <div class="fg">
-            <label>Condition</label>
-            <select id="fCondition">
-              <option value="New">New</option>
-              <option value="Used" selected>Used</option>
-              <option value="Certified Pre-owned">Certified Pre-owned</option>
-            </select>
+            <label>Mileage (km)</label>
+            <input type="number" id="fMileage" placeholder="5000" min="0" step="1">
           </div>
           <div class="fg fg-full">
-            <label>Spec line</label>
-            <input type="text" id="fSpec" placeholder="3.5T V6 · AWD · South Korea">
+            <label>Trim / Option</label>
+            <input type="text" id="fTrim" placeholder="3.5T V6 AWD Premium">
           </div>
           <div class="fg">
-            <label>Badge label</label>
-            <input type="text" id="fBadge" placeholder="2025 · NEW · HOT">
+            <label>Status</label>
+            <select id="fStatus">
+              <option value="available" selected>Available</option>
+              <option value="sold">Sold</option>
+            </select>
           </div>
           <div class="fg">
-            <label>Price</label>
-            <input type="text" id="fPrice" placeholder="€35 000 · Price on request">
+            <label>Price (USD)</label>
+            <input type="number" id="fPrice" placeholder="65000" min="0" step="1">
           </div>
-        </div>
-        <div class="fg" style="margin-top:4px">
-          <label>Categories</label>
-          <div class="cat-checks">
-            <label class="cat-check"><input type="checkbox" value="sedan" id="cSed"> Sedan</label>
-            <label class="cat-check"><input type="checkbox" value="suv" id="cSuv"> SUV</label>
-            <label class="cat-check"><input type="checkbox" value="electric" id="cEl"> Electric</label>
-            <label class="cat-check"><input type="checkbox" value="premium" id="cPrem"> Premium</label>
+          <div class="fg fg-full">
+            <label>Notes (optional)</label>
+            <textarea id="fNotes" placeholder="Service history, owners, extra details..."></textarea>
           </div>
         </div>
       </div>
@@ -545,25 +565,6 @@
         </div>
         <div class="photo-grid" id="photoPreview"></div>
         <div class="upload-progress" id="photoProgress">Uploading photos...</div>
-      </div>
-
-      <!-- Insurance history -->
-      <div class="modal-section">
-        <div class="modal-section-title">Insurance history</div>
-        <div class="fg">
-          <label>Notes</label>
-          <textarea id="fInsNotes" placeholder="Service history, number of owners, accident records, inspection dates..."></textarea>
-        </div>
-        <div class="fg" style="margin-top:8px">
-          <label>Insurance photos / documents</label>
-        </div>
-        <div class="drop-zone" id="insDropZone">
-          <div class="drop-zone-icon">📄</div>
-          <div class="drop-zone-txt">Drag files here or <span>click to select</span></div>
-          <input type="file" id="insInput" multiple accept="image/*">
-        </div>
-        <div class="photo-grid" id="insPreview"></div>
-        <div class="upload-progress" id="insProgress">Uploading documents...</div>
       </div>
 
     </div>
@@ -592,11 +593,9 @@ const storage = firebase.storage();
 const auth    = firebase.auth();
 
 // ── State ──
-let editingId         = null;
-let newPhotoFiles     = [];
-let keptPhotoUrls     = [];
-let newInsPhotoFiles  = [];
-let keptInsPhotoUrls  = [];
+let editingId     = null;
+let newPhotoFiles = [];
+let keptPhotoUrls = [];
 
 // ── Auth ──
 auth.onAuthStateChanged(user => {
@@ -634,15 +633,19 @@ function logout() {
   auth.signOut();
 }
 
+// ── Formatting ──
+function fmtPrice(n) { return '$' + Number(n || 0).toLocaleString('en-US'); }
+function fmtMileage(n) { return Number(n || 0).toLocaleString('en-US') + ' km'; }
+
 // ── Load vehicles ──
 async function loadVehicles() {
   const grid = document.getElementById('adminGrid');
   grid.innerHTML = '<div class="empty-state">Loading...</div>';
   try {
-    const snap = await db.collection('vehicles').orderBy('order').get();
+    const snap = await db.collection('vehicles').orderBy('order', 'desc').get();
     document.getElementById('vehicleCount').textContent = `(${snap.size})`;
     if (snap.empty) {
-      grid.innerHTML = '<div class="empty-state"><strong style="color:var(--text)">No vehicles yet</strong><p>Click "+ Add vehicle" to get started.</p></div>';
+      grid.innerHTML = '<div class="empty-state"><strong>No vehicles yet</strong><p>Click "+ Add vehicle" to get started.</p></div>';
       return;
     }
     grid.innerHTML = '';
@@ -656,18 +659,25 @@ function buildAdminCard(id, v) {
   const el = document.createElement('div');
   el.className = 'admin-card';
   const thumb = v.photos && v.photos[0]
-    ? `<img src="${v.photos[0]}" alt="${v.name}" loading="lazy">`
+    ? `<img src="${v.photos[0]}" alt="${v.brand || ''} ${v.model || ''}" loading="lazy">`
     : `<div class="admin-card-nophoto">NO PHOTO</div>`;
-  const cats = (v.categories || []).map(c => c.toUpperCase()).join(' · ');
+  const statusClass = v.status === 'sold' ? 'admin-status--sold' : 'admin-status--available';
+  const statusLabel = v.status === 'sold' ? 'Sold' : 'Available';
+  const name = `${v.brand || ''} ${v.model || ''}`.trim() || '—';
+  const escapedName = name.replace(/'/g, "\\'");
   el.innerHTML = `
-    <div class="admin-card-thumb">${thumb}</div>
+    <div class="admin-card-thumb">
+      ${thumb}
+      <span class="admin-status ${statusClass}">${statusLabel}</span>
+    </div>
     <div class="admin-card-info">
-      <div class="admin-card-name">${v.name || '—'}</div>
-      <div class="admin-card-meta">${v.year || ''} · ${v.condition || ''} ${cats ? '· ' + cats : ''}</div>
+      <div class="admin-card-name">${name}</div>
+      <div class="admin-card-meta">${v.year || ''}${v.trim ? ' · ' + v.trim : ''} · ${fmtMileage(v.mileage)}</div>
+      <div class="admin-card-price">${fmtPrice(v.price)}</div>
     </div>
     <div class="admin-card-btns">
       <button class="btn-edit" onclick="openForm('${id}')">Edit</button>
-      <button class="btn-del" onclick="deleteVehicle('${id}', '${(v.name||'').replace(/'/g,"\\'")}')">Delete</button>
+      <button class="btn-del" onclick="deleteVehicle('${id}', '${escapedName}')">Delete</button>
     </div>
   `;
   return el;
@@ -692,17 +702,11 @@ function resetForm() {
   editingId = null;
   newPhotoFiles = [];
   keptPhotoUrls = [];
-  newInsPhotoFiles = [];
-  keptInsPhotoUrls = [];
-  ['fName','fYear','fMileage','fSpec','fBadge','fPrice','fInsNotes'].forEach(id => {
+  ['fBrand','fModel','fYear','fMileage','fTrim','fPrice','fNotes'].forEach(id => {
     document.getElementById(id).value = '';
   });
-  document.getElementById('fCondition').value = 'Used';
-  ['cSed','cSuv','cEl','cPrem'].forEach(id => {
-    document.getElementById(id).checked = false;
-  });
+  document.getElementById('fStatus').value = 'available';
   renderPhotoPreviews();
-  renderInsPreviews();
   document.getElementById('saveBtn').disabled = false;
   document.getElementById('saveBtn').textContent = 'Save vehicle';
 }
@@ -711,22 +715,16 @@ async function loadVehicleIntoForm(id) {
   const doc = await db.collection('vehicles').doc(id).get();
   if (!doc.exists) return;
   const v = doc.data();
-  document.getElementById('fName').value      = v.name || '';
-  document.getElementById('fYear').value      = v.year || '';
-  document.getElementById('fMileage').value   = v.mileage || '';
-  document.getElementById('fCondition').value = v.condition || 'Used';
-  document.getElementById('fSpec').value      = v.spec || '';
-  document.getElementById('fBadge').value     = v.badge || '';
-  document.getElementById('fPrice').value     = v.price || '';
-  document.getElementById('fInsNotes').value  = v.insurance?.notes || '';
-  (v.categories || []).forEach(cat => {
-    const map = { sedan:'cSed', suv:'cSuv', electric:'cEl', premium:'cPrem' };
-    if (map[cat]) document.getElementById(map[cat]).checked = true;
-  });
-  keptPhotoUrls    = [...(v.photos || [])];
-  keptInsPhotoUrls = [...(v.insurance?.photos || [])];
+  document.getElementById('fBrand').value   = v.brand || '';
+  document.getElementById('fModel').value   = v.model || '';
+  document.getElementById('fYear').value    = v.year || '';
+  document.getElementById('fMileage').value = v.mileage || '';
+  document.getElementById('fTrim').value    = v.trim || '';
+  document.getElementById('fStatus').value  = v.status || 'available';
+  document.getElementById('fPrice').value   = v.price || '';
+  document.getElementById('fNotes').value   = v.notes || '';
+  keptPhotoUrls = [...(v.photos || [])];
   renderPhotoPreviews();
-  renderInsPreviews();
 }
 
 // ── Photo handling ──
@@ -737,16 +735,6 @@ function renderPhotoPreviews() {
   newPhotoFiles.forEach((file, i) => {
     const url = URL.createObjectURL(file);
     box.appendChild(makeThumb(url, () => { newPhotoFiles.splice(i,1); renderPhotoPreviews(); }));
-  });
-}
-
-function renderInsPreviews() {
-  const box = document.getElementById('insPreview');
-  box.innerHTML = '';
-  keptInsPhotoUrls.forEach((url, i) => box.appendChild(makeThumb(url, () => { keptInsPhotoUrls.splice(i,1); renderInsPreviews(); })));
-  newInsPhotoFiles.forEach((file, i) => {
-    const url = URL.createObjectURL(file);
-    box.appendChild(makeThumb(url, () => { newInsPhotoFiles.splice(i,1); renderInsPreviews(); }));
   });
 }
 
@@ -774,7 +762,6 @@ function setupDropZone(zoneId, inputId, filesArray, renderFn) {
 }
 
 setupDropZone('photoDropZone', 'photoInput', newPhotoFiles, renderPhotoPreviews);
-setupDropZone('insDropZone', 'insInput', newInsPhotoFiles, renderInsPreviews);
 
 // ── Upload files to Storage ──
 async function uploadFiles(files, prefix) {
@@ -790,8 +777,10 @@ async function uploadFiles(files, prefix) {
 
 // ── Save vehicle ──
 async function saveVehicle() {
-  const name = document.getElementById('fName').value.trim();
-  if (!name) { showToast('Car name is required.', 'error'); return; }
+  const brand = document.getElementById('fBrand').value.trim();
+  const model = document.getElementById('fModel').value.trim();
+  const year  = document.getElementById('fYear').value;
+  if (!brand || !model || !year) { showToast('Brand, model and year are required.', 'error'); return; }
 
   const btn = document.getElementById('saveBtn');
   btn.disabled = true;
@@ -806,35 +795,18 @@ async function saveVehicle() {
     const newUrls = await uploadFiles(newPhotoFiles, 'vehicles');
     document.getElementById('photoProgress').classList.remove('show');
 
-    // Upload new insurance photos
-    if (newInsPhotoFiles.length) {
-      document.getElementById('insProgress').classList.add('show');
-      btn.textContent = 'Uploading documents...';
-    }
-    const newInsUrls = await uploadFiles(newInsPhotoFiles, 'insurance');
-    document.getElementById('insProgress').classList.remove('show');
-
     btn.textContent = 'Saving...';
 
-    const categories = ['sedan','suv','electric','premium'].filter(cat => {
-      const map = { sedan:'cSed', suv:'cSuv', electric:'cEl', premium:'cPrem' };
-      return document.getElementById(map[cat]).checked;
-    });
-
     const data = {
-      name,
-      year:       document.getElementById('fYear').value.trim(),
-      mileage:    document.getElementById('fMileage').value.trim(),
-      condition:  document.getElementById('fCondition').value,
-      spec:       document.getElementById('fSpec').value.trim(),
-      badge:      document.getElementById('fBadge').value.trim(),
-      price:      document.getElementById('fPrice').value.trim(),
-      categories,
-      photos:     [...keptPhotoUrls, ...newUrls],
-      insurance: {
-        notes:  document.getElementById('fInsNotes').value.trim(),
-        photos: [...keptInsPhotoUrls, ...newInsUrls],
-      },
+      brand,
+      model,
+      year:     Number(year),
+      mileage:  Number(document.getElementById('fMileage').value) || 0,
+      trim:     document.getElementById('fTrim').value.trim(),
+      status:   document.getElementById('fStatus').value,
+      price:    Number(document.getElementById('fPrice').value) || 0,
+      notes:    document.getElementById('fNotes').value.trim(),
+      photos:   [...keptPhotoUrls, ...newUrls],
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -842,7 +814,7 @@ async function saveVehicle() {
       await db.collection('vehicles').doc(editingId).update(data);
     } else {
       data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      data.order     = Date.now();
+      data.order      = Date.now();
       await db.collection('vehicles').add(data);
     }
 
@@ -858,7 +830,10 @@ async function saveVehicle() {
 
 // ── Delete ──
 function deleteCurrentVehicle() {
-  if (editingId) deleteVehicle(editingId, document.getElementById('fName').value);
+  if (editingId) {
+    const name = `${document.getElementById('fBrand').value} ${document.getElementById('fModel').value}`.trim();
+    deleteVehicle(editingId, name);
+  }
 }
 
 async function deleteVehicle(id, name) {

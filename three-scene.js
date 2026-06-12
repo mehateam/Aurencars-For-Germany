@@ -80,10 +80,9 @@ function init3D() {
   /* Camera animation state */
   const keyframes = [
     { pos: new THREE.Vector3(2,   1.5,  7),   look: new THREE.Vector3(-2,   0.8, 0) }, // 0%   hero — model on RIGHT
-    { pos: new THREE.Vector3(-4,  1.2,  5),   look: new THREE.Vector3(0,    0.8, 0) }, // 18%  about — center
-    { pos: new THREE.Vector3(-4,  2.5, -5),   look: new THREE.Vector3(0,    1.2, 0) }, // 38%  services rear 3/4
-    { pos: new THREE.Vector3(0.2, 9,    0.5), look: new THREE.Vector3(0,    0,   0) }, // 58%  catalog top-down
-    { pos: new THREE.Vector3(5,   0.6,  4),   look: new THREE.Vector3(0,    0.4, 0) }, // 76%  reviews low front
+    { pos: new THREE.Vector3(-4,  1.2,  5),   look: new THREE.Vector3(0,    0.8, 0) }, // 25%  about — center
+    { pos: new THREE.Vector3(-4,  2.5, -5),   look: new THREE.Vector3(0,    1.2, 0) }, // 50%  services rear 3/4
+    { pos: new THREE.Vector3(5,   0.6,  4),   look: new THREE.Vector3(0,    0.4, 0) }, // 75%  reviews low front
     { pos: new THREE.Vector3(4.5, 2,    5),   look: new THREE.Vector3(0,    0.8, 0) }, // 100% footer
   ];
 
